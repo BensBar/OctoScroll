@@ -305,75 +305,78 @@
       header.className = 'app-header';
       header.innerHTML = `
         <div class="user-info">Welcome, ${escapeHTML('BensBar')}</div>
-        <div class="date-info">${escapeHTML('2025-05-31 21:04:48')} UTC</div>
+        <div class="date-info">${escapeHTML('2025-05-31 21:11:45')} UTC</div>
       `;
       document.body.prepend(header);
       
       // Array to store Octocat data - ALL VERIFIED WORKING URLS
       const octocats = [
-        // Original verified Octocats
+        // Original verified Octocats - FIXED URLs
         { name: 'Mona Lisa', number: 0, description: 'The classic Octocat in Mona Lisa style', 
-          image: 'https://octodex.github.com/images/mona-lisa.jpg' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/mona-lisa.jpg' },
         { name: 'Octocat', number: 0, description: 'The original Octocat', 
-          image: 'https://octodex.github.com/images/original.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/original.png' },
         { name: 'Surftocat', number: 138, description: 'Surfing, a fun and neutral activity', 
-          image: 'https://octodex.github.com/images/surftocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/surftocat.png' },
         { name: 'Skatetocat', number: 0, description: 'Skateboarding, a generic fun activity', 
-          image: 'https://octodex.github.com/images/skatetocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/skatetocat.png' },
         { name: 'Yogitocat', number: 152, description: 'Yoga, a calm and universal activity', 
-          image: 'https://octodex.github.com/images/yogitocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/yogitocat.png' },
         { name: 'Hulatocat', number: 137, description: 'Hula dancing, light-hearted and generic', 
-          image: 'https://octodex.github.com/images/hula_loop_octodex03.gif' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/hula_loop_octodex03.gif' },
         { name: 'Dinotocat', number: 128, description: 'Dinosaur, fun and universal', 
-          image: 'https://octodex.github.com/images/dinotocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/dinotocat.png' },
         { name: 'Labtocat', number: 104, description: 'Science/lab theme, tech-neutral', 
-          image: 'https://octodex.github.com/images/labtocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/labtocat.png' },
         { name: 'Dunetocat', number: 103, description: 'Desert/dune, nature-themed', 
-          image: 'https://octodex.github.com/images/dunetocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/dunetocat.png' },
         { name: 'Saketocat', number: 114, description: 'Sake, cultural nod to a drink, fairly neutral', 
-          image: 'https://octodex.github.com/images/saketocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/saketocat.png' },
         { name: 'Filmtocat', number: 120, description: 'Film-making, broadly creative', 
-          image: 'https://octodex.github.com/images/filmtocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/filmtocat.png' },
         { name: 'Snowtocat', number: 133, description: 'Snow/winter, seasonally neutral', 
-          image: 'https://octodex.github.com/images/snowtocat_final.jpg' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/snowtocat_final.jpg' },
         { name: 'Minion', number: 79, description: 'Minion character, widely recognized and neutral', 
-          image: 'https://octodex.github.com/images/minion.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/minion.png' },
         { name: 'Droidtocat', number: 0, description: 'Android/tech theme, neutral for tech audiences', 
-          image: 'https://octodex.github.com/images/droidtocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/droidtocat.png' },
         { name: 'Electrocat', number: 0, description: 'Electricity/tech, abstract and neutral', 
-          image: 'https://octodex.github.com/images/electrocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/electrocat.png' },
         { name: 'Codercat', number: 0, description: 'Coding, core to GitHub\'s neutral tech theme', 
-          image: 'https://octodex.github.com/images/codercat.jpg' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/codercat.jpg' },
         { name: 'Octobiwan', number: 0, description: 'Star Wars themed Octocat with lightsaber', 
-          image: 'https://octodex.github.com/images/octobiwan.jpg' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/octobiwan.jpg' },
+        // FIXED URLs for problematic images
         { name: 'NUXtocat', number: 153, description: 'UI/UX design, neutral tech theme', 
-          image: 'https://octodex.github.com/images/nuxtocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/nuxtocat.png' },
         { name: 'Adacats', number: 145, description: 'Programming history (Ada Lovelace), tech-neutral', 
-          image: 'https://octodex.github.com/images/adacats.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/adacats.png' },
+        { name: 'Neuralcat', number: 160, description: 'Brain/tech theme, broadly appealing', 
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/NeuralCat.png' },
         { name: 'Godotocat', number: 154, description: 'Game engine mascot, tech-focused', 
-          image: 'https://octodex.github.com/images/godotocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/godotocat.png' },
         { name: 'Jetpacktocat', number: 0, description: 'Adventure with a jetpack, playful tech theme', 
-          image: 'https://octodex.github.com/images/jetpacktocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/jetpacktocat.png' },
         { name: 'Manufacturetocat', number: 0, description: 'Manufacturing themed, with technical drawings', 
-          image: 'https://octodex.github.com/images/manufacturetocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/manufacturetocat.png' },
         { name: 'Vinyltocat', number: 0, description: 'Music lover with vinyl records, cultural icon', 
-          image: 'https://octodex.github.com/images/vinyltocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/vinyltocat.png' },
         { name: 'Robotocat', number: 0, description: 'Robotics and automation themed Octocat', 
-          image: 'https://octodex.github.com/images/Robotocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/Robotocat.png' },
         { name: 'Xtocat', number: 0, description: 'X-ray vision, science and technology themed', 
-          image: 'https://octodex.github.com/images/xtocat.jpg' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/xtocat.jpg' },
         
-        // 5 NEW FAMILY-FRIENDLY OCTOCATS
+        // 5 ADDITIONAL FAMILY-FRIENDLY OCTOCATS - FIXED URLs
         { name: 'Inspectocat', number: 0, description: 'Investigating code issues with a magnifying glass', 
-          image: 'https://octodex.github.com/images/inspectocat.jpg' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/inspectocat.jpg' },
         { name: 'Cherryontop-o-cat', number: 0, description: 'Sweet dessert theme with a cherry on top', 
-          image: 'https://octodex.github.com/images/cherryontop-o-cat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/cherryontop-o-cat.png' },
         { name: 'Spectrocat', number: 0, description: 'Spooky ghost-like Octocat with a supernatural theme', 
-          image: 'https://octodex.github.com/images/spectrocat.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/spectrocat.png' },
         { name: 'Puppeteer', number: 0, description: 'Controlling puppet strings, representing automation', 
-          image: 'https://octodex.github.com/images/puppeteer.png' },
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/puppeteer.png' },
         { name: 'Spidertocat', number: 0, description: 'Spider-themed Octocat climbing a web', 
-          image: 'https://octodex.github.com/images/spidertocat.png' }
+          image: 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/spidertocat.png' }
       ];
       
       let currentIndex = 0;
@@ -392,7 +395,7 @@
           img.onerror = function() {
             console.error(`Failed to load image for ${octocat.name}: ${octocat.image}`);
             // Set a working fallback
-            octocats[index].image = 'https://octodex.github.com/images/original.png';
+            octocats[index].image = 'https://raw.githubusercontent.com/github/octodex.github.com/main/images/original.png';
           };
           
           img.src = octocat.image;
@@ -410,7 +413,7 @@
                 src="${octocat.image}" 
                 alt="${octocat.name}" 
                 loading="eager" 
-                onerror="this.src='https://octodex.github.com/images/original.png';">
+                onerror="this.src='https://raw.githubusercontent.com/github/octodex.github.com/main/images/original.png';">
             </div>
             <div class="octocat-info">
               <h2>${octocat.name}${octocat.number ? ` (#${octocat.number})` : ''}</h2>
