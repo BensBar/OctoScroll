@@ -75,6 +75,9 @@
       margin-bottom: 20px;
       border-radius: 5px;
       background-color: #0d1117;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     
     .octocat-image-container img {
@@ -84,9 +87,11 @@
       right: 0;
       bottom: 0;
       margin: auto;
-      max-width: 100%;
-      max-height: 100%;
+      max-width: 90%;
+      max-height: 90%;
       object-fit: contain;
+      width: auto;
+      height: auto;
     }
     
     .octocat-info {
@@ -224,14 +229,22 @@
       }
     }
     
-    /* For phones in portrait */
+    /* For phones in portrait - FIXED for better image display */
     @media (max-width: 767px) and (orientation: portrait) {
       .octocat-card {
         max-width: 95%;
+        padding: 15px;
       }
       
       .octocat-image-container {
-        padding-bottom: 90%;
+        width: 100%;
+        padding-bottom: 100%; /* Square container */
+        max-height: 60vh; /* Limit maximum height */
+      }
+      
+      .octocat-image-container img {
+        max-width: 85%;
+        max-height: 85%;
       }
       
       .nav-button {
@@ -246,6 +259,25 @@
       
       .next-button {
         right: 10px;
+      }
+    }
+    
+    /* For extra small phones */
+    @media (max-width: 375px) {
+      .octocat-card {
+        padding: 10px;
+      }
+      
+      .octocat-info h2 {
+        font-size: 1.1rem;
+      }
+      
+      .octocat-info p {
+        font-size: 0.85rem;
+      }
+      
+      .octocat-image-container {
+        padding-bottom: 95%;
       }
     }
   </style>
@@ -273,13 +305,13 @@
       header.className = 'app-header';
       header.innerHTML = `
         <div class="user-info">Welcome, ${escapeHTML('BensBar')}</div>
-        <div class="date-info">${escapeHTML('2025-05-31 20:33:18')} UTC</div>
+        <div class="date-info">${escapeHTML('2025-05-31 20:41:43')} UTC</div>
       `;
       document.body.prepend(header);
       
-      // Array to store Octocat data
+      // Array to store Octocat data - FIXED URLs
       const octocats = [
-        { name: 'Neurocats', number: 160, description: 'Brain/tech theme, broadly appealing', image: 'https://octodex.github.com/images/neurocats.png' },
+        { name: 'Neuralcat', number: 160, description: 'Brain/tech theme, broadly appealing', image: 'https://octodex.github.com/images/neuralcat.png' },
         { name: 'Godotocat', number: 154, description: 'Game engine mascot, tech-focused', image: 'https://octodex.github.com/images/godotocat.png' },
         { name: 'NUXtocat', number: 153, description: 'UI/UX design, neutral tech theme', image: 'https://octodex.github.com/images/nuxtocat.png' },
         { name: 'Yogitocat', number: 152, description: 'Yoga, a calm and universal activity', image: 'https://octodex.github.com/images/yogitocat.png' },
@@ -310,6 +342,10 @@
         octocats.forEach(octocat => {
           const img = new Image();
           img.src = octocat.image;
+          // Add error handling for image loading
+          img.onerror = () => {
+            console.error(`Failed to load image: ${octocat.image}`);
+          };
         });
       }
       
@@ -319,7 +355,7 @@
         container.innerHTML = `
           <div class="octocat-card">
             <div class="octocat-image-container">
-              <img src="${octocat.image}" alt="${octocat.name}" loading="eager">
+              <img src="${octocat.image}" alt="${octocat.name}" loading="eager" onerror="this.src='https://octodex.github.com/images/original.png';">
             </div>
             <div class="octocat-info">
               <h2>${octocat.name}${octocat.number ? ` (#${octocat.number})` : ''}</h2>
@@ -361,7 +397,24 @@
       
       // Event listeners
       container.addEventListener('click', toggleScrolling);
-      document.addEventListener('keydown', toggleScrolling);
+      document.addEventListener('keydown', (event) => {
+        // Only toggle on specific keys to avoid keyboard issues
+        if (['Space', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(event.code)) {
+          event.preventDefault();
+          
+          if (event.code === 'ArrowLeft') {
+            currentIndex = (currentIndex - 1 + octocats.length) % octocats.length;
+            displayCurrentOctocat();
+            if (isScrolling) toggleScrolling();
+          } else if (event.code === 'ArrowRight') {
+            currentIndex = (currentIndex + 1) % octocats.length;
+            displayCurrentOctocat();
+            if (isScrolling) toggleScrolling();
+          } else {
+            toggleScrolling();
+          }
+        }
+      });
       
       // Add navigation buttons
       const prevButton = document.createElement('button');
