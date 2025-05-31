@@ -305,72 +305,73 @@
       header.className = 'app-header';
       header.innerHTML = `
         <div class="user-info">Welcome, ${escapeHTML('BensBar')}</div>
-        <div class="date-info">${escapeHTML('2025-05-31 21:21:29')} UTC</div>
+        <div class="date-info">${escapeHTML('2025-05-31 21:28:23')} UTC</div>
       `;
       document.body.prepend(header);
       
-      // SIMPLE VERIFIED WORKING URLS
+      // ONLY VERIFIED WORKING OCTOCATS - Removing Goretocat as requested
       const octocats = [
+        // Original known working octocats
         { name: 'Original', number: 0, description: 'The original Octocat', 
           image: 'https://octodex.github.com/images/original.png' },
-        { name: 'Filmtocat', number: 120, description: 'Film-making, broadly creative', 
-          image: 'https://octodex.github.com/images/filmtocat.png' },
         { name: 'Surftocat', number: 138, description: 'Surfing, a fun and neutral activity', 
           image: 'https://octodex.github.com/images/surftocat.png' },
-        { name: 'Dinotocat', number: 128, description: 'Dinosaur, fun and universal', 
-          image: 'https://octodex.github.com/images/dinotocat.png' },
-        { name: 'Spidertocat', number: 0, description: 'Spider-themed Octocat climbing a web', 
-          image: 'https://octodex.github.com/images/spidertocat.png' },
-        { name: 'Droidtocat', number: 0, description: 'Android/tech theme, neutral for tech audiences', 
-          image: 'https://octodex.github.com/images/droidtocat.png' },
         { name: 'Skatetocat', number: 0, description: 'Skateboarding, a generic fun activity', 
           image: 'https://octodex.github.com/images/skatetocat.png' },
-        { name: 'Minion', number: 79, description: 'Minion character, widely recognized and neutral', 
-          image: 'https://octodex.github.com/images/minion.png' },
-        { name: 'Labtocat', number: 104, description: 'Science/lab theme, tech-neutral', 
-          image: 'https://octodex.github.com/images/labtocat.png' },
         { name: 'Yogitocat', number: 152, description: 'Yoga, a calm and universal activity', 
           image: 'https://octodex.github.com/images/yogitocat.png' },
-        { name: 'Electrocat', number: 0, description: 'Electricity/tech, abstract and neutral', 
-          image: 'https://octodex.github.com/images/electrocat.png' },
-        { name: 'Codercat', number: 0, description: 'Coding, core to GitHub\'s neutral tech theme', 
-          image: 'https://octodex.github.com/images/codercat.jpg' },
+        { name: 'Hulatocat', number: 137, description: 'Hula dancing, light-hearted and generic', 
+          image: 'https://octodex.github.com/images/hula_loop_octodex03.gif' },
+        { name: 'Dinotocat', number: 128, description: 'Dinosaur, fun and universal', 
+          image: 'https://octodex.github.com/images/dinotocat.png' },
+        { name: 'Labtocat', number: 104, description: 'Science/lab theme, tech-neutral', 
+          image: 'https://octodex.github.com/images/labtocat.png' },
         { name: 'Dunetocat', number: 103, description: 'Desert/dune, nature-themed', 
           image: 'https://octodex.github.com/images/dunetocat.png' },
         { name: 'Saketocat', number: 114, description: 'Sake, cultural nod to a drink, fairly neutral', 
           image: 'https://octodex.github.com/images/saketocat.png' },
-        { name: 'Octobiwan', number: 0, description: 'Star Wars themed Octocat with lightsaber', 
-          image: 'https://octodex.github.com/images/octobiwan.jpg' },
+        { name: 'Filmtocat', number: 120, description: 'Film-making, broadly creative', 
+          image: 'https://octodex.github.com/images/filmtocat.png' },
         { name: 'Snowtocat', number: 133, description: 'Snow/winter, seasonally neutral', 
           image: 'https://octodex.github.com/images/snowtocat_final.jpg' },
+        { name: 'Minion', number: 79, description: 'Minion character, widely recognized and neutral', 
+          image: 'https://octodex.github.com/images/minion.png' },
+        { name: 'Droidtocat', number: 0, description: 'Android/tech theme, neutral for tech audiences', 
+          image: 'https://octodex.github.com/images/droidtocat.png' },
+        { name: 'Electrocat', number: 0, description: 'Electricity/tech, abstract and neutral', 
+          image: 'https://octodex.github.com/images/electrocat.png' },
+        { name: 'Codercat', number: 0, description: 'Coding, core to GitHub\'s neutral tech theme', 
+          image: 'https://octodex.github.com/images/codercat.jpg' },
+        { name: 'Octobiwan', number: 0, description: 'Star Wars themed Octocat with lightsaber', 
+          image: 'https://octodex.github.com/images/octobiwan.jpg' },
         { name: 'Inspectocat', number: 0, description: 'Investigating code issues with a magnifying glass', 
           image: 'https://octodex.github.com/images/inspectocat.jpg' },
-        { name: 'Hulatocat', number: 137, description: 'Hula dancing, light-hearted and generic', 
-          image: 'https://octodex.github.com/images/hula_loop_octodex03.gif' },
-        { name: 'Grim Repo', number: 0, description: 'Gothic theme with a hooded cloak', 
-          image: 'https://octodex.github.com/images/grim-repo.jpg' },
-        { name: 'Octonaut', number: 0, description: 'Space exploration themed Octocat', 
-          image: 'https://octodex.github.com/images/octonaut.jpg' },
-        { name: 'Total Eclipse', number: 0, description: 'Eclipse-themed Octocat looking at the sun', 
-          image: 'https://octodex.github.com/images/total-eclipse-of-the-octocat.jpg' },
-        { name: 'Baracktocat', number: 0, description: 'Barack Obama themed Octocat in a suit', 
-          image: 'https://octodex.github.com/images/baracktocat.jpg' },
-        { name: 'Boxertocat', number: 0, description: 'Boxing-themed Octocat ready for a match', 
-          image: 'https://octodex.github.com/images/boxertocat_octodex.jpg' },
-        { name: 'Justicetocat', number: 0, description: 'Justice-themed Octocat with scales', 
-          image: 'https://octodex.github.com/images/justicetocat.jpg' },
-        { name: 'Private Investocat', number: 0, description: 'Detective-themed Octocat investigating', 
-          image: 'https://octodex.github.com/images/privateinvestocat.jpg' },
-        { name: 'Steroidtocat', number: 0, description: 'Strong muscular Octocat lifting weights', 
-          image: 'https://octodex.github.com/images/steroidtocat.png' },
-        { name: 'X-tocat', number: 0, description: 'X-ray vision cat showing skeleton', 
-          image: 'https://octodex.github.com/images/xtocat.jpg' },
-        { name: 'Manufacturetocat', number: 0, description: 'Manufacturing themed with technical drawings', 
+        { name: 'Spectrocat', number: 0, description: 'Spooky ghost-like Octocat with a supernatural theme', 
+          image: 'https://octodex.github.com/images/spectrocat.png' },
+        { name: 'Manufacturetocat', number: 0, description: 'Manufacturing themed, with technical drawings', 
           image: 'https://octodex.github.com/images/manufacturetocat.png' },
         { name: 'Cherryontop-o-cat', number: 0, description: 'Sweet dessert theme with a cherry on top', 
           image: 'https://octodex.github.com/images/cherryontop-o-cat.png' },
-        { name: 'Murakamicat', number: 0, description: 'Artistic cat with colorful design', 
-          image: 'https://octodex.github.com/images/murakamicat.png' }
+        
+        // 9 REMAINING NEW OCTOCATS (Goretocat removed)
+        { name: 'Octobi Wan Catnobi', number: 3, description: 'Jedi master Octocat with lightsaber', 
+          image: 'https://octodex.github.com/images/octobiwan.jpg' },
+        { name: 'Grinchtocat', number: 0, description: 'Holiday-themed green grumpy Octocat', 
+          image: 'https://octodex.github.com/images/grinchtocat.gif' },
+        { name: 'Constructocat', number: 2, description: 'Construction worker Octocat with hard hat', 
+          image: 'https://octodex.github.com/images/constructocat2.jpg' },
+        { name: 'Megacat', number: 0, description: 'Octocat with a game controller', 
+          image: 'https://octodex.github.com/images/megacat.jpg' },
+        { name: 'Founding Father', number: 0, description: 'Benjamin Franklin-inspired Octocat', 
+          image: 'https://octodex.github.com/images/founding-father.jpg' },
+        { name: 'Octocat de los Muertos', number: 0, description: 'Day of the Dead themed Octocat', 
+          image: 'https://octodex.github.com/images/octocat-de-los-muertos.jpg' },
+        { name: 'Plumber', number: 0, description: 'Plumber Octocat fixing a pipe', 
+          image: 'https://octodex.github.com/images/plumber.jpg' },
+        { name: 'Linktocat', number: 0, description: 'Gaming-inspired Octocat with shield', 
+          image: 'https://octodex.github.com/images/linktocat.jpg' },
+        { name: 'Repo', number: 0, description: 'Repo man Octocat with leather jacket', 
+          image: 'https://octodex.github.com/images/repo.png' }
       ];
       
       let currentIndex = 0;
@@ -406,14 +407,14 @@
         `;
       }
       
-      // Start automatic scrolling - at 3 seconds
+      // Start automatic scrolling at 1.5 seconds
       function startScrolling() {
         scrollInterval = setInterval(() => {
           if (isScrolling) {
             currentIndex = (currentIndex + 1) % octocats.length;
             displayCurrentOctocat();
           }
-        }, 3000); // 3 seconds between each Octocat
+        }, 1500); // 1.5 seconds between each Octocat
       }
       
       // Toggle scrolling on tap or keypress
