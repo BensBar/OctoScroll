@@ -305,13 +305,13 @@
       header.className = 'app-header';
       header.innerHTML = `
         <div class="user-info">Welcome, ${escapeHTML('BensBar')}</div>
-        <div class="date-info">${escapeHTML('2025-05-31 20:55:27')} UTC</div>
+        <div class="date-info">${escapeHTML('2025-05-31 21:04:48')} UTC</div>
       `;
       document.body.prepend(header);
       
       // Array to store Octocat data - ALL VERIFIED WORKING URLS
       const octocats = [
-        // Original octocats - verified URLs
+        // Original verified Octocats
         { name: 'Mona Lisa', number: 0, description: 'The classic Octocat in Mona Lisa style', 
           image: 'https://octodex.github.com/images/mona-lisa.jpg' },
         { name: 'Octocat', number: 0, description: 'The original Octocat', 
@@ -352,8 +352,6 @@
           image: 'https://octodex.github.com/images/adacats.png' },
         { name: 'Godotocat', number: 154, description: 'Game engine mascot, tech-focused', 
           image: 'https://octodex.github.com/images/godotocat.png' },
-        
-        // 5 NEW OCTOCATS
         { name: 'Jetpacktocat', number: 0, description: 'Adventure with a jetpack, playful tech theme', 
           image: 'https://octodex.github.com/images/jetpacktocat.png' },
         { name: 'Manufacturetocat', number: 0, description: 'Manufacturing themed, with technical drawings', 
@@ -363,7 +361,19 @@
         { name: 'Robotocat', number: 0, description: 'Robotics and automation themed Octocat', 
           image: 'https://octodex.github.com/images/Robotocat.png' },
         { name: 'Xtocat', number: 0, description: 'X-ray vision, science and technology themed', 
-          image: 'https://octodex.github.com/images/xtocat.jpg' }
+          image: 'https://octodex.github.com/images/xtocat.jpg' },
+        
+        // 5 NEW FAMILY-FRIENDLY OCTOCATS
+        { name: 'Inspectocat', number: 0, description: 'Investigating code issues with a magnifying glass', 
+          image: 'https://octodex.github.com/images/inspectocat.jpg' },
+        { name: 'Cherryontop-o-cat', number: 0, description: 'Sweet dessert theme with a cherry on top', 
+          image: 'https://octodex.github.com/images/cherryontop-o-cat.png' },
+        { name: 'Spectrocat', number: 0, description: 'Spooky ghost-like Octocat with a supernatural theme', 
+          image: 'https://octodex.github.com/images/spectrocat.png' },
+        { name: 'Puppeteer', number: 0, description: 'Controlling puppet strings, representing automation', 
+          image: 'https://octodex.github.com/images/puppeteer.png' },
+        { name: 'Spidertocat', number: 0, description: 'Spider-themed Octocat climbing a web', 
+          image: 'https://octodex.github.com/images/spidertocat.png' }
       ];
       
       let currentIndex = 0;
