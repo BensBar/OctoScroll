@@ -1,157 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vibe Octocat Scroller</title>
-    <style>
-        body {
-            margin: 0;
-            background: linear-gradient(135deg, #1a1a1a, #2c003e);
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .container {
-            width: 100%;
-            max-width: 600px;
-            height: 80vh;
-            overflow: hidden;
-            position: relative;
-            border: 3px solid #00ffcc;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
-        }
-        .scroller {
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.5s ease-out;
-        }
-        .octocat {
-            width: 100%;
-            height: 80vh;
-            object-fit: contain;
-            background: #fff;
-            padding: 20px;
-            box-sizing: border-box;
-            border-bottom: 2px solid #ff007a;
-        }
-        .caption {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #00ffcc;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 1.2em;
-            text-shadow: 0 0 5px #ff007a;
-        }
-        .vibe-text {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #ff007a;
-            font-size: 2em;
-            text-shadow: 0 0 10px #00ffcc;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: translateX(-50%) scale(1); }
-            50% { transform: translateX(-50%) scale(1.1); }
-            100% { transform: translateX(-50%) scale(1); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="OctoScroll">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg" type="image/svg+xml">
+  <title>OctoScroll</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    body {
+      background-color: #0d1117;
+      color: #c9d1d9;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+    
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      background-color: #161b22;
+      border-bottom: 1px solid #30363d;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+    }
+    
+    .user-info, .date-info {
+      font-size: 14px;
+      color: #8b949e;
+    }
+    
+    .octocat-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      transition: all 0.3s ease;
+      padding: 60px 20px 20px 20px;
+    }
+    
+    .octocat-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      background-color: #161b22;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+    
+    .octocat-image-container {
+      width: 100%;
+      height: 0;
+      padding-bottom: 75%; /* Aspect ratio container */
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      background-color: #0d1117;
+    }
+    
+    .octocat-image-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    
+    .octocat-info {
+      text-align: center;
+      padding: 10px;
+      width: 100%;
+    }
+    
+    .octocat-info h2 {
+      color: #58a6ff;
+      margin-bottom: 10px;
+      font-size: clamp(1.2rem, 4vw, 2rem);
+    }
+    
+    .octocat-info p {
+      color: #8b949e;
+      line-height: 1.5;
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+    }
+    
+    .octocat-container.paused .octocat-card {
+      transform: scale(0.98);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .nav-button {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(22, 27, 34, 0.8);
+      color: #58a6ff;
+      border: 1px solid #30363d;
+      border-radius: 50%;
+      width: clamp(40px, 8vw, 60px);
+      height: clamp(40px, 8vw, 60px);
+      font-size: clamp(18px, 4vw, 30px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 5;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    .nav-button:hover {
+      background-color: rgba(22, 27, 34, 1);
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .prev-button {
+      left: 20px;
+    }
+    
+    .next-button {
+      right: 20px;
+    }
+    
+    .status-message {
+      position: absolute;
+      bottom: 20px;
+      background-color: rgba(22, 27, 34, 0.9);
+      color: #58a6ff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      animation: fadeInOut 1s ease;
+    }
+    
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    
+    /* Media queries for different device sizes */
+    /* For TV screens and large displays */
+    @media (min-width: 1800px) {
+      .octocat-card {
+        max-width: 80%;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      
+      .octocat-image-container {
+        width: 65%;
+        padding-bottom: 45%;
+        margin-bottom: 0;
+        margin-right: 20px;
+      }
+      
+      .octocat-info {
+        width: 35%;
+        text-align: left;
+        padding: 0 0 0 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
+    }
+    
+    /* For tablets and medium screens */
+    @media (min-width: 768px) and (max-width: 1199px) {
+      .octocat-card {
+        max-width: 90%;
+      }
+      
+      .octocat-image-container {
+        padding-bottom: 65%;
+      }
+    }
+    
+    /* For phones in landscape */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .octocat-card {
+        flex-direction: row;
+      }
+      
+      .octocat-image-container {
+        width: 60%;
+        padding-bottom: 40%;
+        margin-bottom: 0;
+      }
+      
+      .octocat-info {
+        width: 40%;
+        padding-left: 20px;
+        text-align: left;
+      }
+      
+      .app-header {
+        padding: 5px 15px;
+      }
+    }
+    
+    /* For phones in portrait */
+    @media (max-width: 767px) and (orientation: portrait) {
+      .octocat-card {
+        max-width: 95%;
+      }
+      
+      .octocat-image-container {
+        padding-bottom: 90%;
+      }
+      
+      .nav-button {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+      
+      .prev-button {
+        left: 10px;
+      }
+      
+      .next-button {
+        right: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container" id="container">
-        <div class="vibe-text">Tap to Stop the Vibe!</div>
-        <div class="scroller" id="scroller"></div>
-    </div>
+  <script>
+    // Helper function to escape HTML
+    function escapeHTML(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
 
-    <script>
-        // Curated list of 20 neutral Octocats
-        const octocats = [
-            { name: "Neurocats", image: "https://octodex.github.com/images/neurocats.png" },
-            { name: "Godotocat", image: "https://octodex.github.com/images/godotocat.png" },
-            { name: "NUXtocat", image: "https://octodex.github.com/images/nuxtocat.png" },
-            { name: "Yogitocat", image: "https://octodex.github.com/images/yogitocat.png" },
-            { name: "Adacats", image: "https://octodex.github.com/images/adacats.png" },
-            { name: "Surftocat", image: "https://octodex.github.com/images/surftocat.png" },
-            { name: "Hulatocat", image: "https://octodex.github.com/images/hulatocat.png" },
-            { name: "Scubatocat", image: "https://octodex.github.com/images/scubatocat.png" },
-            { name: "Snowtocat", image: "https://octodex.github.com/images/snowtocat.png" },
-            { name: "Dinotocat", image: "https://octodex.github.com/images/dinotocat.png" },
-            { name: "Filmtocat", image: "https://octodex.github.com/images/filmtocat.png" },
-            { name: "Saketocat", image: "https://octodex.github.com/images/saketocat.png" },
-            { name: "Labtocat", image: "https://octodex.github.com/images/labtocat.png" },
-            { name: "Dunetocat", image: "https://octodex.github.com/images/dunetocat.png" },
-            { name: "Skatetocat", image: "https://octodex.github.com/images/skatetocat.png" },
-            { name: "Minion", image: "https://octodex.github.com/images/minion.png" },
-            { name: "Droidtocat", image: "https://octodex.github.com/images/droidtocat.png" },
-            { name: "Electrocat", image: "https://octodex.github.com/images/electrocat.png" },
-            { name: "Codercat", image: "https://octodex.github.com/images/codercat.png" },
-            { name: "Andycat", image: "https://octodex.github.com/images/andycat.png" }
-        ];
-
-        const scroller = document.getElementById('scroller');
-        const container = document.getElementById('container');
-        let isScrolling = false;
-        let scrollInterval;
-
-        // Populate scroller with Octocat images
-        function populateScroller() {
-            octocats.forEach(octocat => {
-                const div = document.createElement('div');
-                div.className = 'octocat';
-                const img = document.createElement('img');
-                img.src = octocat.image;
-                img.alt = octocat.name;
-                const caption = document.createElement('div');
-                caption.className = 'caption';
-                caption.textContent = octocat.name;
-                div.appendChild(img);
-                div.appendChild(caption);
-                scroller.appendChild(div);
-            });
-        }
-
-        // Start random scrolling
-        function startScrolling() {
-            if (!isScrolling) {
-                isScrolling = true;
-                scrollInterval = setInterval(() => {
-                    const randomIndex = Math.floor(Math.random() * octocats.length);
-                    const scrollPosition = randomIndex * container.offsetHeight;
-                    scroller.style.transform = `translateY(-${scrollPosition}px)`;
-                }, 500); // Adjust speed for vibe
-            }
-        }
-
-        // Stop scrolling
-        function stopScrolling() {
-            if (isScrolling) {
-                clearInterval(scrollInterval);
-                isScrolling = false;
-            }
-        }
-
-        // Event listener for tap/click
-        container.addEventListener('click', () => {
-            if (isScrolling) {
-                stopScrolling();
-            } else {
-                startScrolling();
-            }
+    function createOctocatViewer() {
+      // Container for the Octocats
+      const container = document.createElement('div');
+      container.className = 'octocat-container';
+      document.body.appendChild(container);
+      
+      // Add header with user info and date
+      const header = document.createElement('header');
+      header.className = 'app-header';
+      header.innerHTML = `
+        <div class="user-info">Welcome, ${escapeHTML('BensBar')}</div>
+        <div class="date-info">${escapeHTML('2025-05-31 20:33:18')} UTC</div>
+      `;
+      document.body.prepend(header);
+      
+      // Array to store Octocat data
+      const octocats = [
+        { name: 'Neurocats', number: 160, description: 'Brain/tech theme, broadly appealing', image: 'https://octodex.github.com/images/neurocats.png' },
+        { name: 'Godotocat', number: 154, description: 'Game engine mascot, tech-focused', image: 'https://octodex.github.com/images/godotocat.png' },
+        { name: 'NUXtocat', number: 153, description: 'UI/UX design, neutral tech theme', image: 'https://octodex.github.com/images/nuxtocat.png' },
+        { name: 'Yogitocat', number: 152, description: 'Yoga, a calm and universal activity', image: 'https://octodex.github.com/images/yogitocat.png' },
+        { name: 'Adacats', number: 145, description: 'Programming history (Ada Lovelace), tech-neutral', image: 'https://octodex.github.com/images/adacats.png' },
+        { name: 'Surftocat', number: 138, description: 'Surfing, a fun and neutral activity', image: 'https://octodex.github.com/images/surftocat.png' },
+        { name: 'Hulatocat', number: 137, description: 'Hula dancing, light-hearted and generic', image: 'https://octodex.github.com/images/hulatocat.png' },
+        { name: 'Scubatocat', number: 0, description: 'Scuba diving, adventure-themed', image: 'https://octodex.github.com/images/scubatocat.png' },
+        { name: 'Snowtocat', number: 133, description: 'Snow/winter, seasonally neutral', image: 'https://octodex.github.com/images/snowtocat.png' },
+        { name: 'Dinotocat', number: 128, description: 'Dinosaur, fun and universal', image: 'https://octodex.github.com/images/dinotocat.png' },
+        { name: 'Filmtocat', number: 120, description: 'Film-making, broadly creative', image: 'https://octodex.github.com/images/filmtocat.png' },
+        { name: 'Saketocat', number: 114, description: 'Sake, but interpreted as a cultural nod to a drink, fairly neutral', image: 'https://octodex.github.com/images/saketocat.png' },
+        { name: 'Labtocat', number: 104, description: 'Science/lab theme, tech-neutral', image: 'https://octodex.github.com/images/labtocat.png' },
+        { name: 'Dunetocat', number: 103, description: 'Desert/dune, nature-themed', image: 'https://octodex.github.com/images/dunetocat.png' },
+        { name: 'Skatetocat', number: 0, description: 'Skateboarding, a generic fun activity', image: 'https://octodex.github.com/images/skatetocat.png' },
+        { name: 'Minion', number: 79, description: 'Minion character, widely recognized and neutral', image: 'https://octodex.github.com/images/minion.png' },
+        { name: 'Droidtocat', number: 0, description: 'Android/tech theme, neutral for tech audiences', image: 'https://octodex.github.com/images/droidtocat.png' },
+        { name: 'Electrocat', number: 0, description: 'Electricity/tech, abstract and neutral', image: 'https://octodex.github.com/images/electrocat.png' },
+        { name: 'Codercat', number: 0, description: 'Coding, core to GitHub\'s neutral tech theme', image: 'https://octodex.github.com/images/codercat.png' },
+        { name: 'Andycat', number: 42, description: 'Andy Warhol-inspired, artistic but not niche', image: 'https://octodex.github.com/images/andycat.png' }
+      ];
+      
+      let currentIndex = 0;
+      let isScrolling = true;
+      let scrollInterval;
+      
+      // Preload images for smoother transitions
+      function preloadImages() {
+        octocats.forEach(octocat => {
+          const img = new Image();
+          img.src = octocat.image;
         });
+      }
+      
+      // Display current Octocat with info
+      function displayCurrentOctocat() {
+        const octocat = octocats[currentIndex];
+        container.innerHTML = `
+          <div class="octocat-card">
+            <div class="octocat-image-container">
+              <img src="${octocat.image}" alt="${octocat.name}" loading="eager">
+            </div>
+            <div class="octocat-info">
+              <h2>${octocat.name}${octocat.number ? ` (#${octocat.number})` : ''}</h2>
+              <p>${octocat.description}</p>
+            </div>
+          </div>
+        `;
+      }
+      
+      // Start automatic scrolling
+      function startScrolling() {
+        scrollInterval = setInterval(() => {
+          if (isScrolling) {
+            currentIndex = (currentIndex + 1) % octocats.length;
+            displayCurrentOctocat();
+          }
+        }, 3000); // Change Octocat every 3 seconds
+      }
+      
+      // Toggle scrolling on tap or keypress
+      function toggleScrolling() {
+        isScrolling = !isScrolling;
+        // Visual indicator that scrolling is paused
+        container.classList.toggle('paused', !isScrolling);
+        
+        // Show status message
+        const statusMessage = document.createElement('div');
+        statusMessage.className = 'status-message';
+        statusMessage.textContent = isScrolling ? 'Scrolling...' : 'Paused';
+        container.appendChild(statusMessage);
+        
+        // Remove the status message after a short delay
+        setTimeout(() => {
+          if (statusMessage.parentNode) {
+            statusMessage.parentNode.removeChild(statusMessage);
+          }
+        }, 1000);
+      }
+      
+      // Event listeners
+      container.addEventListener('click', toggleScrolling);
+      document.addEventListener('keydown', toggleScrolling);
+      
+      // Add navigation buttons
+      const prevButton = document.createElement('button');
+      prevButton.className = 'nav-button prev-button';
+      prevButton.innerHTML = '&lt;';
+      prevButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent triggering the container click event
+        currentIndex = (currentIndex - 1 + octocats.length) % octocats.length;
+        displayCurrentOctocat();
+        if (isScrolling) {
+          toggleScrolling(); // Pause scrolling when manually navigating
+        }
+      });
+      
+      const nextButton = document.createElement('button');
+      nextButton.className = 'nav-button next-button';
+      nextButton.innerHTML = '&gt;';
+      nextButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent triggering the container click event
+        currentIndex = (currentIndex + 1) % octocats.length;
+        displayCurrentOctocat();
+        if (isScrolling) {
+          toggleScrolling(); // Pause scrolling when manually navigating
+        }
+      });
+      
+      document.body.appendChild(prevButton);
+      document.body.appendChild(nextButton);
+      
+      // Handle orientation changes
+      window.addEventListener('resize', () => {
+        // Adjust layout if needed
+        displayCurrentOctocat();
+      });
+      
+      // Initialize
+      preloadImages();
+      displayCurrentOctocat();
+      startScrolling();
+      
+      return {
+        container,
+        toggleScrolling
+      };
+    }
 
-        // Initialize
-        populateScroller();
-        startScrolling();
-    </script>
+    // Initialize the app when the page loads
+    document.addEventListener('DOMContentLoaded', createOctocatViewer);
+  </script>
 </body>
 </html>
