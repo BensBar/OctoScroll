@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Octocat Scroller</title>
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #1a1a1a, #2c003e);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            height: 80vh;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid #00ffcc;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+        }
+        .scroller {
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.5s ease-out;
+        }
+        .octocat {
+            width: 100%;
+            height: 80vh;
+            object-fit: contain;
+            background: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            border-bottom: 2px solid #ff007a;
+        }
+        .caption {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00ffcc;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1.2em;
+            text-shadow: 0 0 5px #ff007a;
+        }
+        .vibe-text {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff007a;
+            font-size: 2em;
+            text-shadow: 0 0 10px #00ffcc;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="vibe-text">Tap to Stop the Vibe!</div>
+        <div class="scroller" id="scroller"></div>
+    </div>
+
+    <script>
+        // Curated list of 20 neutral Octocats
+        const octocats = [
+            { name: "Neurocats", image: "https://octodex.github.com/images/neurocats.png" },
+            { name: "Godotocat", image: "https://octodex.github.com/images/godotocat.png" },
+            { name: "NUXtocat", image: "https://octodex.github.com/images/nuxtocat.png" },
+            { name: "Yogitocat", image: "https://octodex.github.com/images/yogitocat.png" },
+            { name: "Adacats", image: "https://octodex.github.com/images/adacats.png" },
+            { name: "Surftocat", image: "https://octodex.github.com/images/surftocat.png" },
+            { name: "Hulatocat", image: "https://octodex.github.com/images/hulatocat.png" },
+            { name: "Scubatocat", image: "https://octodex.github.com/images/scubatocat.png" },
+            { name: "Snowtocat", image: "https://octodex.github.com/images/snowtocat.png" },
+            { name: "Dinotocat", image: "https://octodex.github.com/images/dinotocat.png" },
+            { name: "Filmtocat", image: "https://octodex.github.com/images/filmtocat.png" },
+            { name: "Saketocat", image: "https://octodex.github.com/images/saketocat.png" },
+            { name: "Labtocat", image: "https://octodex.github.com/images/labtocat.png" },
+            { name: "Dunetocat", image: "https://octodex.github.com/images/dunetocat.png" },
+            { name: "Skatetocat", image: "https://octodex.github.com/images/skatetocat.png" },
+            { name: "Minion", image: "https://octodex.github.com/images/minion.png" },
+            { name: "Droidtocat", image: "https://octodex.github.com/images/droidtocat.png" },
+            { name: "Electrocat", image: "https://octodex.github.com/images/electrocat.png" },
+            { name: "Codercat", image: "https://octodex.github.com/images/codercat.png" },
+            { name: "Andycat", image: "https://octodex.github.com/images/andycat.png" }
+        ];
+
+        const scroller = document.getElementById('scroller');
+        const container = document.getElementById('container');
+        let isScrolling = false;
+        let scrollInterval;
+
+        // Populate scroller with Octocat images
+        function populateScroller() {
+            octocats.forEach(octocat => {
+                const div = document.createElement('div');
+                div.className = 'octocat';
+                const img = document.createElement('img');
+                img.src = octocat.image;
+                img.alt = octocat.name;
+                const caption = document.createElement('div');
+                caption.className = 'caption';
+                caption.textContent = octocat.name;
+                div.appendChild(img);
+                div.appendChild(caption);
+                scroller.appendChild(div);
+            });
+        }
+
+        // Start random scrolling
+        function startScrolling() {
+            if (!isScrolling) {
+                isScrolling = true;
+                scrollInterval = setInterval(() => {
+                    const randomIndex = Math.floor(Math.random() * octocats.length);
+                    const scrollPosition = randomIndex * container.offsetHeight;
+                    scroller.style.transform = `translateY(-${scrollPosition}px)`;
+                }, 500); // Adjust speed for vibe
+            }
+        }
+
+        // Stop scrolling
+        function stopScrolling() {
+            if (isScrolling) {
+                clearInterval(scrollInterval);
+                isScrolling = false;
+            }
+        }
+
+        // Event listener for tap/click
+        container.addEventListener('click', () => {
+            if (isScrolling) {
+                stopScrolling();
+            } else {
+                startScrolling();
+            }
+        });
+
+        // Initialize
+        populateScroller();
+        startScrolling();
+    </script>
+</body>
+</html>
