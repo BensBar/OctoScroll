@@ -155,18 +155,9 @@
 <body>
   <header class="app-header">
     <div class="user-info">Welcome, BensBar</div>
-    <div class="date-info">2025-06-04 00:34:39 UTC</div>
+    <div class="date-info">2025-06-04 00:38:44 UTC</div>
   </header>
   <script>
-    function escapeHTML(str) {
-      return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
     function createOctocatViewer() {
       const container = document.createElement('div');
       container.className = 'octocat-container';
@@ -199,7 +190,7 @@
         { name: 'PrivateInvestocat', image: 'https://octodex.github.com/images/privateinvestocat.jpg' },
         { name: 'Megacorn', image: 'https://octodex.github.com/images/megacorn.png' },
         { name: 'Doctocat', image: 'https://octodex.github.com/images/doctocat-brown.jpg' },
-        { name: 'Grumpycorn', image: 'https://octodex.github.com/images/grumpycorn.png' },
+        { name: 'Grumpycat', image: 'https://octodex.github.com/images/grumpycorn.png' }, // "Grumpycat" uses "grumpycorn" image
         { name: 'Stachetocat', image: 'https://octodex.github.com/images/stachetocat.gif' },
         { name: 'Boxertocat', image: 'https://octodex.github.com/images/boxertocat_octodex.gif' },
         { name: 'Octonaut', image: 'https://octodex.github.com/images/octonaut.png' },
@@ -264,7 +255,6 @@
         }, 1000);
       }
 
-      // Listen for tap/click anywhere in the container!
       container.addEventListener('click', toggleScrolling);
 
       document.addEventListener('keydown', (event) => {
