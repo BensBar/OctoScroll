@@ -3,18 +3,163 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="OctoScroll">
-  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
-  <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg" type="image/svg+xml">
   <title>OctoScroll</title>
   <style>
-    /* (CSS styles from your file here, unchanged for brevity) */
-    /* ... */
+    body {
+      margin: 0;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .app-header {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+    }
+    .user-info, .date-info {
+      font-size: 14px;
+      color: #8b949e;
+    }
+    .octocat-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      padding-top: 60px;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+    .octocat-card {
+      background: #161b22;
+      border-radius: 10px;
+      padding: 24px;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 95vw;
+      max-height: 80vh;
+      width: 100%;
+      transition: transform 0.3s ease;
+    }
+    .octocat-image-container {
+      width: 100%;
+      aspect-ratio: 4/3;
+      position: relative;
+      background: #0d1117;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .octocat-image-container img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      width: auto;
+      height: auto;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      margin: auto;
+      background: #0d1117;
+    }
+    .octocat-info {
+      text-align: center;
+      padding: 10px;
+      width: 100%;
+    }
+    .octocat-info h2 {
+      color: #58a6ff;
+      margin-bottom: 10px;
+      font-size: clamp(1.2rem, 4vw, 2rem);
+    }
+    .octocat-info p {
+      color: #8b949e;
+      line-height: 1.5;
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+    }
+    .octocat-container.paused .octocat-card {
+      transform: scale(0.98);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .nav-button {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(22, 27, 34, 0.8);
+      color: #58a6ff;
+      border: 1px solid #30363d;
+      border-radius: 50%;
+      width: clamp(40px, 8vw, 60px);
+      height: clamp(40px, 8vw, 60px);
+      font-size: clamp(18px, 4vw, 30px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-button:hover {
+      background-color: rgba(22, 27, 34, 1);
+      transform: translateY(-50%) scale(1.1);
+    }
+    .prev-button {
+      left: 20px;
+    }
+    .next-button {
+      right: 20px;
+    }
+    .status-message {
+      position: absolute;
+      bottom: 20px;
+      background-color: rgba(22, 27, 34, 0.9);
+      color: #58a6ff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: fadeInOut 1s ease;
+      z-index: 30;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @media (max-width: 767px) {
+      .octocat-card { max-width: 99vw; padding: 10px; }
+      .octocat-image-container { margin-bottom: 10px; }
+      .nav-button { width: 40px; height: 40px; font-size: 20px; }
+      .prev-button { left: 10px;}
+      .next-button { right: 10px;}
+    }
+    @media (max-width: 375px) {
+      .octocat-card { padding: 6px; }
+      .octocat-info h2 { font-size: 1.1rem; }
+      .octocat-info p { font-size: 0.85rem; }
+    }
   </style>
 </head>
 <body>
+  <header class="app-header">
+    <div class="user-info">Welcome, BensBar</div>
+    <div class="date-info">2025-06-04 00:25:21 UTC</div>
+  </header>
   <script>
     // Helper function to escape HTML
     function escapeHTML(str) {
@@ -31,17 +176,8 @@
       const container = document.createElement('div');
       container.className = 'octocat-container';
       document.body.appendChild(container);
-      
-      // Add header with user info and date
-      const header = document.createElement('header');
-      header.className = 'app-header';
-      header.innerHTML = `
-        <div class="user-info">Welcome, ${escapeHTML('BensBar')}</div>
-        <div class="date-info">${escapeHTML('2025-05-31 21:43:04')} UTC</div>
-      `;
-      document.body.prepend(header);
 
-      // Octocat entries (see your file for all entries)
+      // Octocat entries (add as many as you'd like!)
       const octocats = [
         { name: 'Original', number: 0, description: '', image: 'https://octodex.github.com/images/original.png' },
         { name: 'Surftocat', number: 138, description: '', image: 'https://octodex.github.com/images/surftocat.png' },
@@ -63,7 +199,6 @@
         { name: 'Spectrocat', number: 0, description: '', image: 'https://octodex.github.com/images/spectrocat.png' },
         { name: 'Manufacturetocat', number: 0, description: '', image: 'https://octodex.github.com/images/manufacturetocat.png' },
         { name: 'Cherryontop-o-cat', number: 0, description: '', image: 'https://octodex.github.com/images/cherryontop-o-cat.png' },
-        // ... (more octocats from your file) ...
         { name: 'Ironcat', number: 0, description: '', image: 'https://octodex.github.com/images/ironcat.jpg' },
         { name: 'Octoliberty', number: 0, description: '', image: 'https://octodex.github.com/images/octoliberty.png' },
         { name: 'Homercat', number: 0, description: '', image: 'https://octodex.github.com/images/homercat.png' },
@@ -73,7 +208,27 @@
         { name: 'Jenktocat', number: 0, description: '', image: 'https://octodex.github.com/images/jenktocat.jpg' },
         { name: 'Saritocat', number: 0, description: '', image: 'https://octodex.github.com/images/saritocat.png' },
         { name: 'Topguntocat', number: 0, description: '', image: 'https://octodex.github.com/images/topguntocat.png' },
-        { name: 'Carlostocat', number: 0, description: '', image: 'https://octodex.github.com/images/carlostocat.gif' }
+        { name: 'Carlostocat', number: 0, description: '', image: 'https://octodex.github.com/images/carlostocat.gif' },
+        { name: 'Scubatocat', number: 0, description: '', image: 'https://octodex.github.com/images/scubatocat.png' },
+        { name: 'Linktocat', number: 0, description: '', image: 'https://octodex.github.com/images/linktocat.jpg' },
+        { name: 'Octotron', number: 0, description: '', image: 'https://octodex.github.com/images/octotron.jpg' },
+        { name: 'Femalecodertocat', number: 0, description: '', image: 'https://octodex.github.com/images/femalecodertocat.png' },
+        { name: 'Murakamicat', number: 0, description: '', image: 'https://octodex.github.com/images/murakamicat.png' },
+        { name: 'Catstello', number: 0, description: '', image: 'https://octodex.github.com/images/catstello.png' },
+        { name: 'PrivateInvestocat', number: 0, description: '', image: 'https://octodex.github.com/images/privateinvestocat.jpg' },
+        { name: 'Megacorn', number: 0, description: '', image: 'https://octodex.github.com/images/megacorn.png' },
+        { name: 'Doctocat', number: 0, description: '', image: 'https://octodex.github.com/images/doctocat-brown.jpg' },
+        { name: 'Grumpycat', number: 0, description: '', image: 'https://octodex.github.com/images/grumpycat.png' },
+        { name: 'Stachetocat', number: 0, description: '', image: 'https://octodex.github.com/images/stachetocat.png' },
+        { name: 'Boxertocat', number: 0, description: '', image: 'https://octodex.github.com/images/boxertocat_octodex.png' },
+        { name: 'Octonaut', number: 0, description: '', image: 'https://octodex.github.com/images/octonaut.png' },
+        { name: 'Robotocat', number: 0, description: '', image: 'https://octodex.github.com/images/robotocat.png' },
+        { name: 'Octogeddoncat', number: 0, description: '', image: 'https://octodex.github.com/images/octogeddoncat.png' },
+        { name: 'Hellocat', number: 0, description: '', image: 'https://octodex.github.com/images/hellocat.png' },
+        { name: 'Doctocat2', number: 0, description: '', image: 'https://octodex.github.com/images/doctocat_v2.png' },
+        { name: 'Greentoctocat', number: 0, description: '', image: 'https://octodex.github.com/images/greentoctocat.png' },
+        { name: 'Sentrytocat', number: 0, description: '', image: 'https://octodex.github.com/images/sentrytocat_octodex.jpg' },
+        { name: 'Stormtroopocat', number: 0, description: '', image: 'https://octodex.github.com/images/stormtroopocat.png' }
       ];
 
       let currentIndex = 0;
