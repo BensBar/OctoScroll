@@ -37,6 +37,7 @@
       padding-top: 60px;
       box-sizing: border-box;
       transition: all 0.3s ease;
+      position: relative;
     }
     .octocat-card {
       background: #161b22;
@@ -53,10 +54,10 @@
     }
     .octocat-image-container {
       width: 100%;
-      height: 60vw;
-      max-width: 600px;
+      height: 40vw;
+      max-width: 400px;
       max-height: 60vh;
-      min-height: 220px;
+      min-height: 160px;
       background: #0d1117;
       margin-bottom: 20px;
       border-radius: 5px;
@@ -71,7 +72,6 @@
       max-height: 100%;
       object-fit: contain;
       background: #0d1117;
-      /* No absolute positioning! */
       margin: auto;
     }
     .octocat-info {
@@ -111,6 +111,7 @@
       z-index: 20;
       transition: all 0.2s ease;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
     .nav-button:hover {
       background-color: rgba(22, 27, 34, 1);
@@ -139,7 +140,7 @@
     }
     @media (max-width: 767px) {
       .octocat-card { max-width: 99vw; padding: 10px; }
-      .octocat-image-container { margin-bottom: 10px; min-height: 120px; height: 50vw; }
+      .octocat-image-container { margin-bottom: 10px; min-height: 90px; height: 50vw; max-width: 95vw; }
       .nav-button { width: 40px; height: 40px; font-size: 20px; }
       .prev-button { left: 10px;}
       .next-button { right: 10px;}
@@ -154,7 +155,7 @@
 <body>
   <header class="app-header">
     <div class="user-info">Welcome, BensBar</div>
-    <div class="date-info">2025-06-04 00:27:15 UTC</div>
+    <div class="date-info">2025-06-04 00:34:39 UTC</div>
   </header>
   <script>
     function escapeHTML(str) {
@@ -198,16 +199,16 @@
         { name: 'PrivateInvestocat', image: 'https://octodex.github.com/images/privateinvestocat.jpg' },
         { name: 'Megacorn', image: 'https://octodex.github.com/images/megacorn.png' },
         { name: 'Doctocat', image: 'https://octodex.github.com/images/doctocat-brown.jpg' },
-        { name: 'Grumpycat', image: 'https://octodex.github.com/images/grumpycat.png' },
-        { name: 'Stachetocat', image: 'https://octodex.github.com/images/stachetocat.png' },
-        { name: 'Boxertocat', image: 'https://octodex.github.com/images/boxertocat_octodex.png' },
+        { name: 'Grumpycorn', image: 'https://octodex.github.com/images/grumpycorn.png' },
+        { name: 'Stachetocat', image: 'https://octodex.github.com/images/stachetocat.gif' },
+        { name: 'Boxertocat', image: 'https://octodex.github.com/images/boxertocat_octodex.gif' },
         { name: 'Octonaut', image: 'https://octodex.github.com/images/octonaut.png' },
         { name: 'Robotocat', image: 'https://octodex.github.com/images/robotocat.png' },
         { name: 'Octogeddoncat', image: 'https://octodex.github.com/images/octogeddoncat.png' },
         { name: 'Hellocat', image: 'https://octodex.github.com/images/hellocat.png' },
-        { name: 'Doctocat2', image: 'https://octodex.github.com/images/doctocat_v2.png' },
-        { name: 'Greentoctocat', image: 'https://octodex.github.com/images/greentoctocat.png' },
-        { name: 'Sentrytocat', image: 'https://octodex.github.com/images/sentrytocat_octodex.jpg' },
+        { name: 'Doctocat2', image: 'https://octodex.github.com/images/doctocat-v2.png' },
+        { name: 'Greentocat', image: 'https://octodex.github.com/images/greentocat.png' },
+        { name: 'Sentrytocat', image: 'https://octodex.github.com/images/sentrytocat_octodex.gif' },
         { name: 'Stormtroopocat', image: 'https://octodex.github.com/images/stormtroopocat.png' }
       ];
 
