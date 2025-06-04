@@ -53,8 +53,10 @@
     }
     .octocat-image-container {
       width: 100%;
-      aspect-ratio: 4/3;
-      position: relative;
+      height: 60vw;
+      max-width: 600px;
+      max-height: 60vh;
+      min-height: 220px;
       background: #0d1117;
       margin-bottom: 20px;
       border-radius: 5px;
@@ -64,15 +66,13 @@
       overflow: hidden;
     }
     .octocat-image-container img {
-      max-width: 90%;
-      max-height: 90%;
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
       object-fit: contain;
-      width: auto;
-      height: auto;
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      margin: auto;
       background: #0d1117;
+      /* No absolute positioning! */
+      margin: auto;
     }
     .octocat-info {
       text-align: center;
@@ -116,12 +116,8 @@
       background-color: rgba(22, 27, 34, 1);
       transform: translateY(-50%) scale(1.1);
     }
-    .prev-button {
-      left: 20px;
-    }
-    .next-button {
-      right: 20px;
-    }
+    .prev-button { left: 20px; }
+    .next-button { right: 20px; }
     .status-message {
       position: absolute;
       bottom: 20px;
@@ -143,7 +139,7 @@
     }
     @media (max-width: 767px) {
       .octocat-card { max-width: 99vw; padding: 10px; }
-      .octocat-image-container { margin-bottom: 10px; }
+      .octocat-image-container { margin-bottom: 10px; min-height: 120px; height: 50vw; }
       .nav-button { width: 40px; height: 40px; font-size: 20px; }
       .prev-button { left: 10px;}
       .next-button { right: 10px;}
@@ -158,10 +154,9 @@
 <body>
   <header class="app-header">
     <div class="user-info">Welcome, BensBar</div>
-    <div class="date-info">2025-06-04 00:25:21 UTC</div>
+    <div class="date-info">2025-06-04 00:27:15 UTC</div>
   </header>
   <script>
-    // Helper function to escape HTML
     function escapeHTML(str) {
       return str
         .replace(/&/g, '&amp;')
@@ -172,63 +167,48 @@
     }
 
     function createOctocatViewer() {
-      // Container for the Octocats
       const container = document.createElement('div');
       container.className = 'octocat-container';
       document.body.appendChild(container);
 
-      // Octocat entries (add as many as you'd like!)
       const octocats = [
-        { name: 'Original', number: 0, description: '', image: 'https://octodex.github.com/images/original.png' },
-        { name: 'Surftocat', number: 138, description: '', image: 'https://octodex.github.com/images/surftocat.png' },
-        { name: 'Skatetocat', number: 0, description: '', image: 'https://octodex.github.com/images/skatetocat.png' },
-        { name: 'Yogitocat', number: 152, description: '', image: 'https://octodex.github.com/images/yogitocat.png' },
-        { name: 'Hulatocat', number: 137, description: '', image: 'https://octodex.github.com/images/hula_loop_octodex03.gif' },
-        { name: 'Dinotocat', number: 128, description: '', image: 'https://octodex.github.com/images/dinotocat.png' },
-        { name: 'Labtocat', number: 104, description: '', image: 'https://octodex.github.com/images/labtocat.png' },
-        { name: 'Dunetocat', number: 103, description: '', image: 'https://octodex.github.com/images/dunetocat.png' },
-        { name: 'Saketocat', number: 114, description: '', image: 'https://octodex.github.com/images/saketocat.png' },
-        { name: 'Filmtocat', number: 120, description: '', image: 'https://octodex.github.com/images/filmtocat.png' },
-        { name: 'Snowtocat', number: 133, description: '', image: 'https://octodex.github.com/images/snowtocat_final.jpg' },
-        { name: 'Minion', number: 79, description: '', image: 'https://octodex.github.com/images/minion.png' },
-        { name: 'Droidtocat', number: 0, description: '', image: 'https://octodex.github.com/images/droidtocat.png' },
-        { name: 'Electrocat', number: 0, description: '', image: 'https://octodex.github.com/images/electrocat.png' },
-        { name: 'Codercat', number: 0, description: '', image: 'https://octodex.github.com/images/codercat.jpg' },
-        { name: 'Octobiwan', number: 0, description: '', image: 'https://octodex.github.com/images/octobiwan.jpg' },
-        { name: 'Inspectocat', number: 0, description: '', image: 'https://octodex.github.com/images/inspectocat.jpg' },
-        { name: 'Spectrocat', number: 0, description: '', image: 'https://octodex.github.com/images/spectrocat.png' },
-        { name: 'Manufacturetocat', number: 0, description: '', image: 'https://octodex.github.com/images/manufacturetocat.png' },
-        { name: 'Cherryontop-o-cat', number: 0, description: '', image: 'https://octodex.github.com/images/cherryontop-o-cat.png' },
-        { name: 'Ironcat', number: 0, description: '', image: 'https://octodex.github.com/images/ironcat.jpg' },
-        { name: 'Octoliberty', number: 0, description: '', image: 'https://octodex.github.com/images/octoliberty.png' },
-        { name: 'Homercat', number: 0, description: '', image: 'https://octodex.github.com/images/homercat.png' },
-        { name: 'Hipster Partycat', number: 0, description: '', image: 'https://octodex.github.com/images/hipster-partycat.jpg' },
-        { name: 'Octofez', number: 0, description: '', image: 'https://octodex.github.com/images/octofez.png' },
-        { name: 'Poptocat', number: 0, description: '', image: 'https://octodex.github.com/images/poptocat.png' },
-        { name: 'Jenktocat', number: 0, description: '', image: 'https://octodex.github.com/images/jenktocat.jpg' },
-        { name: 'Saritocat', number: 0, description: '', image: 'https://octodex.github.com/images/saritocat.png' },
-        { name: 'Topguntocat', number: 0, description: '', image: 'https://octodex.github.com/images/topguntocat.png' },
-        { name: 'Carlostocat', number: 0, description: '', image: 'https://octodex.github.com/images/carlostocat.gif' },
-        { name: 'Scubatocat', number: 0, description: '', image: 'https://octodex.github.com/images/scubatocat.png' },
-        { name: 'Linktocat', number: 0, description: '', image: 'https://octodex.github.com/images/linktocat.jpg' },
-        { name: 'Octotron', number: 0, description: '', image: 'https://octodex.github.com/images/octotron.jpg' },
-        { name: 'Femalecodertocat', number: 0, description: '', image: 'https://octodex.github.com/images/femalecodertocat.png' },
-        { name: 'Murakamicat', number: 0, description: '', image: 'https://octodex.github.com/images/murakamicat.png' },
-        { name: 'Catstello', number: 0, description: '', image: 'https://octodex.github.com/images/catstello.png' },
-        { name: 'PrivateInvestocat', number: 0, description: '', image: 'https://octodex.github.com/images/privateinvestocat.jpg' },
-        { name: 'Megacorn', number: 0, description: '', image: 'https://octodex.github.com/images/megacorn.png' },
-        { name: 'Doctocat', number: 0, description: '', image: 'https://octodex.github.com/images/doctocat-brown.jpg' },
-        { name: 'Grumpycat', number: 0, description: '', image: 'https://octodex.github.com/images/grumpycat.png' },
-        { name: 'Stachetocat', number: 0, description: '', image: 'https://octodex.github.com/images/stachetocat.png' },
-        { name: 'Boxertocat', number: 0, description: '', image: 'https://octodex.github.com/images/boxertocat_octodex.png' },
-        { name: 'Octonaut', number: 0, description: '', image: 'https://octodex.github.com/images/octonaut.png' },
-        { name: 'Robotocat', number: 0, description: '', image: 'https://octodex.github.com/images/robotocat.png' },
-        { name: 'Octogeddoncat', number: 0, description: '', image: 'https://octodex.github.com/images/octogeddoncat.png' },
-        { name: 'Hellocat', number: 0, description: '', image: 'https://octodex.github.com/images/hellocat.png' },
-        { name: 'Doctocat2', number: 0, description: '', image: 'https://octodex.github.com/images/doctocat_v2.png' },
-        { name: 'Greentoctocat', number: 0, description: '', image: 'https://octodex.github.com/images/greentoctocat.png' },
-        { name: 'Sentrytocat', number: 0, description: '', image: 'https://octodex.github.com/images/sentrytocat_octodex.jpg' },
-        { name: 'Stormtroopocat', number: 0, description: '', image: 'https://octodex.github.com/images/stormtroopocat.png' }
+        { name: 'Original', image: 'https://octodex.github.com/images/original.png' },
+        { name: 'Surftocat', image: 'https://octodex.github.com/images/surftocat.png' },
+        { name: 'Skatetocat', image: 'https://octodex.github.com/images/skatetocat.png' },
+        { name: 'Yogitocat', image: 'https://octodex.github.com/images/yogitocat.png' },
+        { name: 'Hulatocat', image: 'https://octodex.github.com/images/hula_loop_octodex03.gif' },
+        { name: 'Dinotocat', image: 'https://octodex.github.com/images/dinotocat.png' },
+        { name: 'Labtocat', image: 'https://octodex.github.com/images/labtocat.png' },
+        { name: 'Dunetocat', image: 'https://octodex.github.com/images/dunetocat.png' },
+        { name: 'Saketocat', image: 'https://octodex.github.com/images/saketocat.png' },
+        { name: 'Filmtocat', image: 'https://octodex.github.com/images/filmtocat.png' },
+        { name: 'Snowtocat', image: 'https://octodex.github.com/images/snowtocat_final.jpg' },
+        { name: 'Minion', image: 'https://octodex.github.com/images/minion.png' },
+        { name: 'Droidtocat', image: 'https://octodex.github.com/images/droidtocat.png' },
+        { name: 'Ironcat', image: 'https://octodex.github.com/images/ironcat.jpg' },
+        { name: 'Grinchtocat', image: 'https://octodex.github.com/images/grinchtocat.gif' },
+        { name: 'Megacat', image: 'https://octodex.github.com/images/megacat.jpg' },
+        { name: 'Repo', image: 'https://octodex.github.com/images/repo.png' },
+        { name: 'Scubatocat', image: 'https://octodex.github.com/images/scubatocat.png' },
+        { name: 'Linktocat', image: 'https://octodex.github.com/images/linktocat.jpg' },
+        { name: 'Octotron', image: 'https://octodex.github.com/images/octotron.jpg' },
+        { name: 'Femalecodertocat', image: 'https://octodex.github.com/images/femalecodertocat.png' },
+        { name: 'Murakamicat', image: 'https://octodex.github.com/images/murakamicat.png' },
+        { name: 'Catstello', image: 'https://octodex.github.com/images/catstello.png' },
+        { name: 'PrivateInvestocat', image: 'https://octodex.github.com/images/privateinvestocat.jpg' },
+        { name: 'Megacorn', image: 'https://octodex.github.com/images/megacorn.png' },
+        { name: 'Doctocat', image: 'https://octodex.github.com/images/doctocat-brown.jpg' },
+        { name: 'Grumpycat', image: 'https://octodex.github.com/images/grumpycat.png' },
+        { name: 'Stachetocat', image: 'https://octodex.github.com/images/stachetocat.png' },
+        { name: 'Boxertocat', image: 'https://octodex.github.com/images/boxertocat_octodex.png' },
+        { name: 'Octonaut', image: 'https://octodex.github.com/images/octonaut.png' },
+        { name: 'Robotocat', image: 'https://octodex.github.com/images/robotocat.png' },
+        { name: 'Octogeddoncat', image: 'https://octodex.github.com/images/octogeddoncat.png' },
+        { name: 'Hellocat', image: 'https://octodex.github.com/images/hellocat.png' },
+        { name: 'Doctocat2', image: 'https://octodex.github.com/images/doctocat_v2.png' },
+        { name: 'Greentoctocat', image: 'https://octodex.github.com/images/greentoctocat.png' },
+        { name: 'Sentrytocat', image: 'https://octodex.github.com/images/sentrytocat_octodex.jpg' },
+        { name: 'Stormtroopocat', image: 'https://octodex.github.com/images/stormtroopocat.png' }
       ];
 
       let currentIndex = 0;
@@ -254,8 +234,7 @@
                 onerror="this.src='https://octodex.github.com/images/original.png';">
             </div>
             <div class="octocat-info">
-              <h2>${octocat.name}${octocat.number ? ` (#${octocat.number})` : ''}</h2>
-              <p>${octocat.description}</p>
+              <h2>${octocat.name}</h2>
             </div>
           </div>
         `;
@@ -284,7 +263,9 @@
         }, 1000);
       }
 
+      // Listen for tap/click anywhere in the container!
       container.addEventListener('click', toggleScrolling);
+
       document.addEventListener('keydown', (event) => {
         if (['Space', 'Enter', 'ArrowLeft', 'ArrowRight'].includes(event.code)) {
           event.preventDefault();
