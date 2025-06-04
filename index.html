@@ -177,9 +177,7 @@
       <input type="range" min="0.5" max="10" step="0.1" value="1" id="speed-slider" aria-label="Speed (seconds)">
       <span id="speed-value">1.0s</span>
     </div>
-    <div class="octocat-slide" id="octocat-slide">
-      <!-- Octocat will appear here -->
-    </div>
+    <div class="octocat-slide" id="octocat-slide"></div>
   </div>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -206,7 +204,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   if (localStorage.getItem('octoscroll_dark') === '1') enableDarkMode();
 
-  // Preload helper
   function preloadImage(src) {
     const img = new window.Image();
     img.src = src;
@@ -241,18 +238,15 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     `;
     const img = document.getElementById('octocat-img');
-    // Preload next image (if any)
     if (octocats.length > 1) {
       const nextIdx = (currentIndex + 1) % octocats.length;
       preloadImage(octocats[nextIdx].image);
     }
-    // Fade in when loaded
     img.onload = function() {
       img.classList.add("loaded");
     };
     img.src = o.image;
     img.classList.remove("loaded");
-    // Fullscreen class logic
     if (isFullscreen) {
       img.classList.add('fullscreen-img');
       container.classList.add('fullscreen-bg', 'hide-toggle');
