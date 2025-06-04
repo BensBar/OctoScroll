@@ -60,7 +60,7 @@
       margin: 0 auto;
       border-radius: 0;
       background: none;
-      transition: opacity 0.5s;
+      transition: opacity 0.5s, box-shadow 0.3s;
       cursor: pointer;
       box-shadow: 0 0 24px rgba(0,0,0,0.35);
       background: transparent;
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
   speedSlider.value = autoscrollSpeed;
   speedValue.textContent = autoscrollSpeed.toFixed(1) + 's';
 
-  // slideshow states: "scrolling", "paused", "fullscreen"
+  // slideshow state: "scrolling" or "paused"
   let state = "scrolling";
   let isFullscreen = false;
 
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   if (localStorage.getItem('octoscroll_dark') === '1') enableDarkMode();
 
-  // --- Preload helper ---
+  // Preload helper
   function preloadImage(src) {
     const img = new window.Image();
     img.src = src;
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
     octocatSlide.innerHTML = `
       <div class="octocat-card" id="octocat-card">
         <img src="" alt="${o.name}" id="octocat-img" tabindex="0" draggable="false">
-        <div class="octocat-description${showDescription && !isFullscreen ? ' shown' : ''}" id="octocat-desc">${o.description}</div>
+        <div class="octocat-description${showDescription ? ' shown' : ''}" id="octocat-desc">${o.description}</div>
       </div>
     `;
     const img = document.getElementById('octocat-img');
@@ -262,10 +262,15 @@ document.addEventListener('DOMContentLoaded', function () {
       container.classList.remove('fullscreen-bg', 'hide-toggle');
       document.body.classList.remove('hide-toggle');
     }
-    img.onclick = handleImageClick;
-    img.ontouchstart = function(e) { e.preventDefault(); handleImageClick(); };
+    img.onclick = togglePlayPause;
+    img.ondblclick = function(e) {
+      e.preventDefault();
+      toggleFullscreen();
+    };
+    img.ontouchstart = function(e) { e.preventDefault(); togglePlayPause(); };
     img.onkeydown = function(e) {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleImageClick(); }
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); togglePlayPause(); }
+      if (e.key === "f") { e.preventDefault(); toggleFullscreen(); }
     };
   }
 
@@ -284,65 +289,53 @@ document.addEventListener('DOMContentLoaded', function () {
     intervalId = null;
   }
 
-  function handleImageClick() {
+  function togglePlayPause() {
     if (state === "scrolling") {
       state = "paused";
       stopAutoscroll();
       renderCurrentOctocat(true);
-    } else if (state === "paused") {
-      state = "fullscreen";
-      enterFullscreen();
-    } else if (state === "fullscreen") {
+    } else {
       state = "scrolling";
-      exitFullscreen();
       renderCurrentOctocat(false);
       startAutoscroll();
     }
   }
 
-  function enterFullscreen() {
-    isFullscreen = true;
-    if (container.requestFullscreen) container.requestFullscreen();
-    else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
-    else if (container.msRequestFullscreen) container.msRequestFullscreen();
-    renderCurrentOctocat(true);
-  }
-
-  function exitFullscreen() {
-    isFullscreen = false;
-    if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-      if (document.exitFullscreen) document.exitFullscreen();
-      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-      else if (document.msExitFullscreen) document.msExitFullscreen();
+  function toggleFullscreen() {
+    if (!isFullscreen) {
+      isFullscreen = true;
+      if (container.requestFullscreen) container.requestFullscreen();
+      else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+      else if (container.msRequestFullscreen) container.msRequestFullscreen();
+      renderCurrentOctocat(state === "paused");
+    } else {
+      isFullscreen = false;
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        else if (document.msExitFullscreen) document.msExitFullscreen();
+      }
+      renderCurrentOctocat(state === "paused");
     }
-    renderCurrentOctocat(true);
   }
 
+  // Handle Fullscreen API changes (in case user exits via Esc)
   document.addEventListener('fullscreenchange', function() {
     if (!document.fullscreenElement) {
       isFullscreen = false;
-      if (state === "fullscreen") {
-        state = "paused";
-        renderCurrentOctocat(true);
-      }
+      renderCurrentOctocat(state === "paused");
     }
   });
   document.addEventListener('webkitfullscreenchange', function() {
     if (!document.webkitFullscreenElement) {
       isFullscreen = false;
-      if (state === "fullscreen") {
-        state = "paused";
-        renderCurrentOctocat(true);
-      }
+      renderCurrentOctocat(state === "paused");
     }
   });
   document.addEventListener('msfullscreenchange', function() {
     if (!document.msFullscreenElement) {
       isFullscreen = false;
-      if (state === "fullscreen") {
-        state = "paused";
-        renderCurrentOctocat(true);
-      }
+      renderCurrentOctocat(state === "paused");
     }
   });
 
@@ -381,34 +374,23 @@ document.addEventListener('DOMContentLoaded', function () {
     if (octocats.length === 0) return;
     if (e.key === 'ArrowLeft') {
       currentIndex = (currentIndex - 1 + octocats.length) % octocats.length;
-      renderCurrentOctocat(state !== "scrolling" && !isFullscreen);
+      renderCurrentOctocat(state === "paused");
     }
     if (e.key === 'ArrowRight') {
       currentIndex = (currentIndex + 1) % octocats.length;
-      renderCurrentOctocat(state !== "scrolling" && !isFullscreen);
+      renderCurrentOctocat(state === "paused");
     }
-    if (e.key === ' ') { // Space to pause/resume
+    if (e.key === ' ' || e.key === 'Spacebar') { // Space to pause/resume
       e.preventDefault();
-      if (state === "scrolling") {
-        state = "paused";
-        stopAutoscroll();
-        renderCurrentOctocat(true);
-      } else if (state === "paused") {
-        state = "scrolling";
-        renderCurrentOctocat(false);
-        startAutoscroll();
-      }
+      togglePlayPause();
     }
-    if (e.key === 'f') { // 'f' for fullscreen when paused
-      if (state === "paused" && !isFullscreen) {
-        state = "fullscreen";
-        enterFullscreen();
-      }
+    if (e.key === 'f') { // 'f' for fullscreen toggle
+      toggleFullscreen();
     }
     if (e.key === 'Escape' && isFullscreen) {
-      exitFullscreen();
-      state = "paused";
-      renderCurrentOctocat(true);
+      isFullscreen = false;
+      if (document.exitFullscreen) document.exitFullscreen();
+      renderCurrentOctocat(state === "paused");
     }
     if (e.key === 'd') { // 'd' for dark mode toggle
       if (darkMode) disableDarkMode();
