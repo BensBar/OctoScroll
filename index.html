@@ -42,6 +42,7 @@
       height: auto;
       margin-bottom: 10px;
       border-radius: 3px;
+      cursor: pointer;
     }
     .octocat-name {
       font-weight: bold;
@@ -50,6 +51,10 @@
     .octocat-description {
       font-size: 14px;
       color: #586069;
+      transition: opacity 0.2s;
+    }
+    .octocat-description.hidden {
+      display: none;
     }
     .slideshow-controls {
       display: flex;
@@ -97,6 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const slideCount = document.getElementById('slide-count');
   let octocats = [];
   let currentIndex = 0;
+  let intervalId = null;
+  let isPaused = false;
 
   fetch('octocats.json')
     .then(response => response.json())
@@ -107,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
         description: `Created by ${o.author}`
       }));
       renderCurrentOctocat();
+      startAutoscroll();
     })
     .catch(error => {
       octocatSlide.innerHTML = '<p>Could not load Octocats.</p>';
@@ -114,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.error(error);
     });
 
-  function renderCurrentOctocat() {
+  function renderCurrentOctocat(showDescription = false) {
     if (octocats.length === 0) {
       octocatSlide.innerHTML = '';
       slideCount.textContent = '';
@@ -122,25 +130,55 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     const o = octocats[currentIndex];
     octocatSlide.innerHTML = `
-      <div class="octocat-card">
-        <img src="${o.image}" alt="${o.name}">
+      <div class="octocat-card" id="octocat-card">
+        <img src="${o.image}" alt="${o.name}" id="octocat-img" style="cursor:pointer;">
         <div class="octocat-name">${o.name}</div>
-        <div class="octocat-description">${o.description}</div>
+        <div class="octocat-description${showDescription ? '' : ' hidden'}" id="octocat-desc">${o.description}</div>
       </div>
     `;
     slideCount.textContent = `Octocat ${currentIndex + 1} of ${octocats.length}`;
+
+    const img = document.getElementById('octocat-img');
+    img.addEventListener('click', togglePause);
+    img.addEventListener('touchstart', function(e) { e.preventDefault(); togglePause(); });
+  }
+
+  function startAutoscroll() {
+    if (intervalId) clearInterval(intervalId);
+    intervalId = setInterval(() => {
+      if (!isPaused && octocats.length > 0) {
+        currentIndex = (currentIndex + 1) % octocats.length;
+        renderCurrentOctocat(false);
+      }
+    }, 1000);
+  }
+
+  function stopAutoscroll() {
+    if (intervalId) clearInterval(intervalId);
+    intervalId = null;
+  }
+
+  function togglePause() {
+    isPaused = !isPaused;
+    if (isPaused) {
+      stopAutoscroll();
+      renderCurrentOctocat(true);
+    } else {
+      renderCurrentOctocat(false);
+      startAutoscroll();
+    }
   }
 
   prevBtn.addEventListener('click', function() {
     if (octocats.length === 0) return;
     currentIndex = (currentIndex - 1 + octocats.length) % octocats.length;
-    renderCurrentOctocat();
+    renderCurrentOctocat(isPaused);
   });
 
   nextBtn.addEventListener('click', function() {
     if (octocats.length === 0) return;
     currentIndex = (currentIndex + 1) % octocats.length;
-    renderCurrentOctocat();
+    renderCurrentOctocat(isPaused);
   });
 });
 </script>
