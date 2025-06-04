@@ -1,235 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Octoscroll</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 900px;
-            margin: 20px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1, h2 {
-            color: #24292e;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .octocat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        .octocat-card {
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .octocat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .octocat-card img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-            border-radius: 3px;
-        }
-        .octocat-name {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .octocat-description {
-            font-size: 14px;
-            color: #586069;
-        }
-        .search-container {
-            margin-bottom: 20px;
-        }
-        #search-input {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #e1e4e8;
-            border-radius: 6px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Octoscroll</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #24292e;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .search-container {
+      margin-bottom: 20px;
+    }
+    #search-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+    }
+    .octocat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .octocat-card {
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .octocat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .octocat-card img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+      border-radius: 3px;
+    }
+    .octocat-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .octocat-description {
+      font-size: 14px;
+      color: #586069;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Octoscroll</h1>
-        
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search Octocats...">
-        </div>
-        
-        <div class="octocat-grid" id="octocat-grid">
-            <!-- Octocats will be populated here -->
-        </div>
+  <div class="container">
+    <h1>Octoscroll</h1>
+
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search Octocats...">
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const octocats = [
-                {
-                    name: "Original Octocat",
-                    image: "https://octodex.github.com/images/original.png",
-                    description: "The original Octocat"
-                },
-                {
-                    name: "Surftocat",
-                    image: "https://octodex.github.com/images/surftocat.png",
-                    description: "Surfing the web!"
-                },
-                {
-                    name: "Dinotocat",
-                    image: "https://octodex.github.com/images/dinotocat.png",
-                    description: "ROAR!"
-                },
-                {
-                    name: "Octobiwan",
-                    image: "https://octodex.github.com/images/octobiwan.jpg",
-                    description: "May the Force be with you"
-                },
-                {
-                    name: "Megacat",
-                    image: "https://octodex.github.com/images/megacat.jpg",
-                    description: "Mega power!"
-                },
-                {
-                    name: "Yogitocat",
-                    image: "https://octodex.github.com/images/yogitocat.png",
-                    description: "Finding inner peace"
-                },
-                {
-                    name: "Megacorn",
-                    image: "https://octodex.github.com/images/megacorn.jpg",
-                    description: "Magical unicorn Octocat!"
-                },
-                {
-                    name: "Grumpycat",
-                    image: "https://octodex.github.com/images/orderedlistocat.png",
-                    description: "Not amused!"
-                },
-                {
-                    name: "Stachetocat",
-                    image: "https://octodex.github.com/images/murakamicat.png",
-                    description: "Quite the mustache"
-                },
-                {
-                    name: "Boxertocat",
-                    image: "https://octodex.github.com/images/boxertocat_octodex.jpg",
-                    description: "Ready to fight bugs!"
-                },
-                {
-                    name: "Octonaut",
-                    image: "https://octodex.github.com/images/octonaut.jpg",
-                    description: "Exploring the depths of code"
-                },
-                {
-                    name: "Robotocat",
-                    image: "https://octodex.github.com/images/robotocat.png",
-                    description: "Beep boop!"
-                },
-                {
-                    name: "Octogeddoncat",
-                    image: "https://octodex.github.com/images/octogeddon.png",
-                    description: "Epic octo battles!"
-                },
-                {
-                    name: "Hellocat",
-                    image: "https://octodex.github.com/images/hula_loop_octodex03.gif",
-                    description: "Hello, World!"
-                },
-                {
-                    name: "Doctocat2",
-                    image: "https://octodex.github.com/images/doctocat-brown.jpg",
-                    description: "Time traveling octocat"
-                },
-                {
-                    name: "Greentoctocat",
-                    image: "https://octodex.github.com/images/saint_nictocat.jpg",
-                    description: "Eco-friendly octocat"
-                },
-                {
-                    name: "Sentrytocat",
-                    image: "https://octodex.github.com/images/waldocat.png",
-                    description: "Standing guard"
-                },
-                {
-                    name: "Daftpunktocat",
-                    image: "https://octodex.github.com/images/daftpunktocat-thomas.gif",
-                    description: "Harder, better, faster, stronger"
-                },
-                {
-                    name: "Spidertocat",
-                    image: "https://octodex.github.com/images/spidertocat.png",
-                    description: "With great power comes great responsibility"
-                },
-                {
-                    name: "Dodgetocat",
-                    image: "https://octodex.github.com/images/dodgetocat_v2.png",
-                    description: "Dodge, duck, dip, dive and dodge"
-                }
-            ];
+    <div class="octocat-grid" id="octocat-grid">
+      <!-- Octocats will be populated here -->
+    </div>
+  </div>
 
-            const octocatGrid = document.getElementById('octocat-grid');
-            const searchInput = document.getElementById('search-input');
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const octocats = [
+        { name: "Original Octocat", image: "https://octodex.github.com/images/original.png", description: "The original Octocat" },
+        { name: "Surftocat", image: "https://octodex.github.com/images/surftocat.png", description: "Surfing the web!" },
+        { name: "Dinotocat", image: "https://octodex.github.com/images/dinotocat.png", description: "ROAR!" },
+        { name: "Octobiwan", image: "https://octodex.github.com/images/octobiwan.jpg", description: "May the Force be with you" },
+        { name: "Yogitocat", image: "https://octodex.github.com/images/yogitocat.png", description: "Finding inner peace" },
+        { name: "Megacorn", image: "https://octodex.github.com/images/megacornocat.png", description: "Magical unicorn Octocat!" },
+        { name: "Grumpycat", image: "https://octodex.github.com/images/orderedlistocat.png", description: "Not amused!" },
+        { name: "Stachetocat", image: "https://octodex.github.com/images/murakamicat.png", description: "Quite the mustache" },
+        { name: "Boxertocat", image: "https://octodex.github.com/images/boxertocat_octodex.jpg", description: "Ready to fight bugs!" },
+        { name: "Octonaut", image: "https://octodex.github.com/images/octonaut.jpg", description: "Exploring the depths of code" },
+        { name: "Robotocat", image: "https://octodex.github.com/images/robotocat.png", description: "Beep boop!" },
+        { name: "Hellocat", image: "https://octodex.github.com/images/hellocat-octodex.gif", description: "Hello, World!" },
+        { name: "Doctocat2", image: "https://octodex.github.com/images/doctocat-brown.jpg", description: "Time traveling octocat" },
+        { name: "Greentoctocat", image: "https://octodex.github.com/images/saint_nictocat.jpg", description: "Eco-friendly octocat" },
+        { name: "Sentrytocat", image: "https://octodex.github.com/images/waldocat.png", description: "Standing guard" },
+        { name: "Daftpunktocat", image: "https://octodex.github.com/images/daftpunktocat-thomas.gif", description: "Harder, better, faster, stronger" },
+        { name: "Spidertocat", image: "https://octodex.github.com/images/spidertocat.png", description: "With great power comes great responsibility" },
+        { name: "Dodgetocat", image: "https://octodex.github.com/images/dodgetocat_v2.png", description: "Dodge, duck, dip, dive and dodge" }
+      ];
 
-            // Initial rendering of all octocats
-            renderOctocats(octocats);
+      const octocatGrid = document.getElementById('octocat-grid');
+      const searchInput = document.getElementById('search-input');
 
-            // Search functionality
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                const filteredOctocats = octocats.filter(octocat => 
-                    octocat.name.toLowerCase().includes(searchTerm) ||
-                    octocat.description.toLowerCase().includes(searchTerm)
-                );
-                renderOctocats(filteredOctocats);
-            });
+      renderOctocats(octocats);
 
-            // Function to render octocats
-            function renderOctocats(octocatsToRender) {
-                octocatGrid.innerHTML = '';
-                
-                if (octocatsToRender.length === 0) {
-                    octocatGrid.innerHTML = '<p>No Octocats found matching your search.</p>';
-                    return;
-                }
+      searchInput.addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+        const filtered = octocats.filter(o =>
+          o.name.toLowerCase().includes(searchTerm) ||
+          o.description.toLowerCase().includes(searchTerm)
+        );
+        renderOctocats(filtered);
+      });
 
-                octocatsToRender.forEach(octocat => {
-                    const card = document.createElement('div');
-                    card.className = 'octocat-card';
-                    
-                    card.innerHTML = `
-                        <img src="${octocat.image}" alt="${octocat.name}">
-                        <div class="octocat-name">${octocat.name}</div>
-                        <div class="octocat-description">${octocat.description}</div>
-                    `;
-                    
-                    octocatGrid.appendChild(card);
-                });
-            }
+      function renderOctocats(list) {
+        octocatGrid.innerHTML = '';
+        if (list.length === 0) {
+          octocatGrid.innerHTML = '<p>No Octocats found matching your search.</p>';
+          return;
+        }
+
+        list.forEach(octocat => {
+          const card = document.createElement('div');
+          card.className = 'octocat-card';
+          card.innerHTML = `
+            <img src="${octocat.image}" alt="${octocat.name}" onerror="this.src='https://octodex.github.com/images/octocat-de-los-muertos.jpg';">
+            <div class="octocat-name">${octocat.name}</div>
+            <div class="octocat-description">${octocat.description}</div>
+          `;
+          octocatGrid.appendChild(card);
         });
-    </script>
+      }
+    });
+  </script>
 </body>
 </html>
