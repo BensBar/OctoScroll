@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Octocat Scroller</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+    .scroller {
+      text-align: center;
+      cursor: pointer;
+    }
+    .scroller img {
+      max-height: 300px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: opacity 0.3s ease-in-out;
+    }
+    .octocat-name {
+      margin-top: 10px;
+      font-size: 1.2em;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="scroller" id="scroller">
+    <img id="octocat-image" src="" alt="Octocat">
+    <div class="octocat-name" id="octocat-name"></div>
+  </div>
+
+  <script>
+    const octocats = [
+      {{ "number": 160, "name": "Neurocats", "image": "https://octodex.github.com/images/neurocats.jpg" }},
+      {{ "number": 159, "name": "Securitocat", "image": "https://octodex.github.com/images/securitocat.jpg" }},
+      {{ "number": 158, "name": "Securityknightocat", "image": "https://octodex.github.com/images/securityknightocat.jpg" }},
+      {{ "number": 157, "name": "Universetocat", "image": "https://octodex.github.com/images/universetocat.jpg" }},
+      {{ "number": 156, "name": "Sponsortocat", "image": "https://octodex.github.com/images/sponsortocat.jpg" }}
+      // Add more as needed or load via fetch('octocats.json')
+    ];
+
+    let index = 0;
+    let paused = false;
+    const image = document.getElementById('octocat-image');
+    const name = document.getElementById('octocat-name');
+
+    function showOctocat(i) {
+      image.src = octocats[i].image;
+      name.textContent = `#${octocats[i].number}: ${octocats[i].name}`;
+    }
+
+    function nextOctocat() {
+      if (!paused) {
+        index = (index + 1) % octocats.length;
+        showOctocat(index);
+      }
+    }
+
+    // Start with first
+    showOctocat(index);
+    let interval = setInterval(nextOctocat, 1000);
+
+    // Toggle pause on click
+    document.getElementById('scroller').addEventListener('click', () => {
+      paused = !paused;
+    });
+  </script>
+</body>
+</html>
