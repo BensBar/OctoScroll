@@ -88,23 +88,22 @@
     document.addEventListener('DOMContentLoaded', function () {
       const octocats = [
         { name: "Original Octocat", image: "https://octodex.github.com/images/original.png", description: "The original Octocat" },
-        { name: "Surftocat", image: "https://octodex.github.com/images/surftocat.png", description: "Surfing the web!" },
-        { name: "Dinotocat", image: "https://octodex.github.com/images/dinotocat.png", description: "ROAR!" },
-        { name: "Octobiwan", image: "https://octodex.github.com/images/octobiwan.jpg", description: "May the Force be with you" },
-        { name: "Yogitocat", image: "https://octodex.github.com/images/yogitocat.png", description: "Finding inner peace" },
-        { name: "Megacorn", image: "https://octodex.github.com/images/megacornocat.png", description: "Magical unicorn Octocat!" },
-        { name: "Grumpycat", image: "https://octodex.github.com/images/orderedlistocat.png", description: "Not amused!" },
-        { name: "Stachetocat", image: "https://octodex.github.com/images/murakamicat.png", description: "Quite the mustache" },
-        { name: "Boxertocat", image: "https://octodex.github.com/images/boxertocat_octodex.jpg", description: "Ready to fight bugs!" },
-        { name: "Octonaut", image: "https://octodex.github.com/images/octonaut.jpg", description: "Exploring the depths of code" },
-        { name: "Robotocat", image: "https://octodex.github.com/images/robotocat.png", description: "Beep boop!" },
-        { name: "Hellocat", image: "https://octodex.github.com/images/hellocat-octodex.gif", description: "Hello, World!" },
-        { name: "Doctocat2", image: "https://octodex.github.com/images/doctocat-brown.jpg", description: "Time traveling octocat" },
-        { name: "Greentoctocat", image: "https://octodex.github.com/images/saint_nictocat.jpg", description: "Eco-friendly octocat" },
-        { name: "Sentrytocat", image: "https://octodex.github.com/images/waldocat.png", description: "Standing guard" },
-        { name: "Daftpunktocat", image: "https://octodex.github.com/images/daftpunktocat-thomas.gif", description: "Harder, better, faster, stronger" },
-        { name: "Spidertocat", image: "https://octodex.github.com/images/spidertocat.png", description: "With great power comes great responsibility" },
-        { name: "Dodgetocat", image: "https://octodex.github.com/images/dodgetocat_v2.png", description: "Dodge, duck, dip, dive and dodge" }
+        { name: "Surftocat", image: "https://octodex.github.com/images/surftocat.png", description: "Hang ten!" },
+        { name: "Dinotocat", image: "https://octodex.github.com/images/dinotocat.png", description: "RAWR means I love you in Octocat" },
+        { name: "Octobiwan", image: "https://octodex.github.com/images/octobiwan.jpg", description: "May the source be with you" },
+        { name: "Yogitocat", image: "https://octodex.github.com/images/yogitocat.png", description: "Namaste" },
+        { name: "Megacorn", image: "https://octodex.github.com/images/megacornocat.png", description: "Magical unicorn Octocat" },
+        { name: "Grumpycat", image: "https://octodex.github.com/images/orderedlistocat.png", description: "Not impressed." },
+        { name: "Stachetocat", image: "https://octodex.github.com/images/murakamicat.png", description: "That 'stache though." },
+        { name: "Boxertocat", image: "https://octodex.github.com/images/boxertocat_octodex.jpg", description: "Fighting bugs one punch at a time." },
+        { name: "Octonaut", image: "https://octodex.github.com/images/octonaut.jpg", description: "Exploring code depths" },
+        { name: "Hellocat", image: "https://octodex.github.com/images/hellocat-octodex.gif", description: "Hello, world!" },
+        { name: "Doctocat", image: "https://octodex.github.com/images/doctocat-brown.jpg", description: "Paging Dr. Octocat..." },
+        { name: "Saint Nictocat", image: "https://octodex.github.com/images/saint_nictocat.jpg", description: "Ho ho ho" },
+        { name: "Waldocat", image: "https://octodex.github.com/images/waldocat.png", description: "Where's Octo?" },
+        { name: "Daftpunktocat", image: "https://octodex.github.com/images/daftpunktocat-thomas.gif", description: "One more time!" },
+        { name: "Spidertocat", image: "https://octodex.github.com/images/spidertocat.png", description: "Your friendly neighborhood Octocat" },
+        { name: "Dodgetocat", image: "https://octodex.github.com/images/dodgetocat_v2.png", description: "Such Octocat. Much code." }
       ];
 
       const octocatGrid = document.getElementById('octocat-grid');
@@ -132,7 +131,7 @@
           const card = document.createElement('div');
           card.className = 'octocat-card';
           card.innerHTML = `
-            <img src="${octocat.image}" alt="${octocat.name}" onerror="this.src='https://octodex.github.com/images/octocat-de-los-muertos.jpg';">
+            <img src="${octocat.image}" alt="${octocat.name}">
             <div class="octocat-name">${octocat.name}</div>
             <div class="octocat-description">${octocat.description}</div>
           `;
