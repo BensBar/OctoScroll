@@ -86,62 +86,53 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  // Load octocats from JSON file or inline array
-  const octocats = [
-    { name: "the Filmtocat", image: "https://octodex.github.com/images/filmtocat.png", description: "Created by jeejkang" },
-    { name: "the Private Investocat", image: "https://octodex.github.com/images/privateinvestocat.jpg", description: "Created by jeejkang" },
-    { name: "the Gracehoppertocat", image: "https://octodex.github.com/images/gracehoppertocat.jpg", description: "Created by jeejkang" },
-    { name: "the Gobble-o-tron", image: "https://octodex.github.com/images/gobbleotron.gif", description: "Created by JohnCreek" },
-    { name: "the Jetpacktocat", image: "https://octodex.github.com/images/jetpacktocat.png", description: "Created by tonyjaramillo" },
-    { name: "the Minertocat", image: "https://octodex.github.com/images/minertocat.png", description: "Created by tonyjaramillo" },
-    { name: "the Mountietocat", image: "https://octodex.github.com/images/mountietocat.png", description: "Created by jeejkang" },
-    { name: "the Saketocat", image: "https://octodex.github.com/images/saketocat.png", description: "Created by jeejkang" },
-    { name: "the Luchadortocat", image: "https://octodex.github.com/images/luchadortocat.png", description: "Created by jeejkang" },
-    { name: "the Saritocat", image: "https://octodex.github.com/images/saritocat.png", description: "Created by jeejkang" },
-    { name: "the Topguntocat", image: "https://octodex.github.com/images/topguntocat.png", description: "Created by JohnCreek" },
-    { name: "the Carlostocat", image: "https://octodex.github.com/images/carlostocat.gif", description: "Created by JohnCreek" },
-    { name: "the Grinchtocat", image: "https://octodex.github.com/images/grinchtocat.gif", description: "Created by leereilly" },
-    { name: "the Maxtocat", image: "https://octodex.github.com/images/maxtocat.gif", description: "Created by tonyjaramillo" },
-    { name: "the Yaktocat", image: "https://octodex.github.com/images/yaktocat.png", description: "Created by jeejkang" },
-    { name: "the Steroidtocat", image: "https://octodex.github.com/images/steroidtocat.png", description: "Created by tonyjaramillo" },
-    { name: "the Mummytocat", image: "https://octodex.github.com/images/mummytocat.gif", description: "Created by jeejkang" },
-    { name: "the Labtocat", image: "https://octodex.github.com/images/labtocat.png", description: "Created by jeejkang" },
-    { name: "the Dunetocat", image: "https://octodex.github.com/images/dunetocat.png", description: "Created by jeejkang" },
-    { name: "the OctoLiberty", image: "https://octodex.github.com/images/octoliberty.png", description: "Created by tonyjaramillo" }
-    // ... add the rest of the octocats here (see octocats.json for full list) ...
-  ];
-
   const octocatGrid = document.getElementById('octocat-grid');
   const searchInput = document.getElementById('search-input');
 
-  renderOctocats(octocats);
+  // Fetch octocats from the JSON file
+  fetch('octocats.json')
+    .then(response => response.json())
+    .then(data => {
+      // Convert the JSON to the format expected by renderOctocats
+      const octocats = data.map(o => ({
+        name: o.name,
+        image: o.url.replace('//images/', '/images/'), // Remove accidental double slashes if any
+        description: `Created by ${o.author}`
+      }));
 
-  searchInput.addEventListener('input', function () {
-    const searchTerm = this.value.toLowerCase();
-    const filtered = octocats.filter(o =>
-      o.name.toLowerCase().includes(searchTerm) ||
-      o.description.toLowerCase().includes(searchTerm)
-    );
-    renderOctocats(filtered);
-  });
+      renderOctocats(octocats);
 
-  function renderOctocats(list) {
-    octocatGrid.innerHTML = '';
-    if (list.length === 0) {
-      octocatGrid.innerHTML = '<p>No Octocats found matching your search.</p>';
-      return;
-    }
-    list.forEach(octocat => {
-      const card = document.createElement('div');
-      card.className = 'octocat-card';
-      card.innerHTML = `
-        <img src="${octocat.image}" alt="${octocat.name}">
-        <div class="octocat-name">${octocat.name}</div>
-        <div class="octocat-description">${octocat.description}</div>
-      `;
-      octocatGrid.appendChild(card);
+      searchInput.addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+        const filtered = octocats.filter(o =>
+          o.name.toLowerCase().includes(searchTerm) ||
+          o.description.toLowerCase().includes(searchTerm)
+        );
+        renderOctocats(filtered);
+      });
+
+      function renderOctocats(list) {
+        octocatGrid.innerHTML = '';
+        if (list.length === 0) {
+          octocatGrid.innerHTML = '<p>No Octocats found matching your search.</p>';
+          return;
+        }
+        list.forEach(octocat => {
+          const card = document.createElement('div');
+          card.className = 'octocat-card';
+          card.innerHTML = `
+            <img src="${octocat.image}" alt="${octocat.name}">
+            <div class="octocat-name">${octocat.name}</div>
+            <div class="octocat-description">${octocat.description}</div>
+          `;
+          octocatGrid.appendChild(card);
+        });
+      }
+    })
+    .catch(error => {
+      octocatGrid.innerHTML = '<p>Could not load Octocats.</p>';
+      console.error(error);
     });
-  }
 });
 </script>
 </body>
