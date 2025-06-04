@@ -86,13 +86,29 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+  // Load octocats from JSON file or inline array
   const octocats = [
     { name: "the Filmtocat", image: "https://octodex.github.com/images/filmtocat.png", description: "Created by jeejkang" },
     { name: "the Private Investocat", image: "https://octodex.github.com/images/privateinvestocat.jpg", description: "Created by jeejkang" },
     { name: "the Gracehoppertocat", image: "https://octodex.github.com/images/gracehoppertocat.jpg", description: "Created by jeejkang" },
     { name: "the Gobble-o-tron", image: "https://octodex.github.com/images/gobbleotron.gif", description: "Created by JohnCreek" },
-    { name: "the Jetpacktocat", image: "https://octodex.github.com/images/jetpacktocat.png", description: "Created by tonyjaramillo" }
-    // ...add the rest here in the same format...
+    { name: "the Jetpacktocat", image: "https://octodex.github.com/images/jetpacktocat.png", description: "Created by tonyjaramillo" },
+    { name: "the Minertocat", image: "https://octodex.github.com/images/minertocat.png", description: "Created by tonyjaramillo" },
+    { name: "the Mountietocat", image: "https://octodex.github.com/images/mountietocat.png", description: "Created by jeejkang" },
+    { name: "the Saketocat", image: "https://octodex.github.com/images/saketocat.png", description: "Created by jeejkang" },
+    { name: "the Luchadortocat", image: "https://octodex.github.com/images/luchadortocat.png", description: "Created by jeejkang" },
+    { name: "the Saritocat", image: "https://octodex.github.com/images/saritocat.png", description: "Created by jeejkang" },
+    { name: "the Topguntocat", image: "https://octodex.github.com/images/topguntocat.png", description: "Created by JohnCreek" },
+    { name: "the Carlostocat", image: "https://octodex.github.com/images/carlostocat.gif", description: "Created by JohnCreek" },
+    { name: "the Grinchtocat", image: "https://octodex.github.com/images/grinchtocat.gif", description: "Created by leereilly" },
+    { name: "the Maxtocat", image: "https://octodex.github.com/images/maxtocat.gif", description: "Created by tonyjaramillo" },
+    { name: "the Yaktocat", image: "https://octodex.github.com/images/yaktocat.png", description: "Created by jeejkang" },
+    { name: "the Steroidtocat", image: "https://octodex.github.com/images/steroidtocat.png", description: "Created by tonyjaramillo" },
+    { name: "the Mummytocat", image: "https://octodex.github.com/images/mummytocat.gif", description: "Created by jeejkang" },
+    { name: "the Labtocat", image: "https://octodex.github.com/images/labtocat.png", description: "Created by jeejkang" },
+    { name: "the Dunetocat", image: "https://octodex.github.com/images/dunetocat.png", description: "Created by jeejkang" },
+    { name: "the OctoLiberty", image: "https://octodex.github.com/images/octoliberty.png", description: "Created by tonyjaramillo" }
+    // ... add the rest of the octocats here (see octocats.json for full list) ...
   ];
 
   const octocatGrid = document.getElementById('octocat-grid');
