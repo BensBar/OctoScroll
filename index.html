@@ -97,7 +97,7 @@
     .fullscreen-bg {
       background: var(--bg-color, #000) !important;
     }
-    /* Make image fill the screen and hide mouse in fullscreen mode */
+    /* Make image fill the screen only in fullscreen mode */
     :fullscreen .octocat-card img,
     :-webkit-full-screen .octocat-card img,
     :-ms-fullscreen .octocat-card img {
@@ -111,11 +111,6 @@
       max-width: none !important;
       max-height: none !important;
       box-shadow: none !important;
-    }
-    :fullscreen,
-    :-webkit-full-screen,
-    :-ms-fullscreen {
-      cursor: none !important;
     }
     /* Dark mode */
     body.dark {
@@ -290,6 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     img.src = o.image;
     img.classList.remove("loaded");
+    // Fullscreen-specific styling is now only handled by CSS :fullscreen rules
     if (isFullscreen) {
       container.classList.add('fullscreen-bg', 'hide-toggle');
       document.body.classList.add('hide-toggle');
