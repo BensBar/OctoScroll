@@ -98,21 +98,9 @@
       background: var(--bg-color, #000) !important;
     }
     /* Make image fill the screen only in fullscreen mode */
-:fullscreen .octocat-card img,
-:-webkit-full-screen .octocat-card img,
-:-ms-fullscreen .octocat-card img {
-  width: 100vw !important;
-  height: 100vh !important;
-  object-fit: cover !important;  /* Change from fill to cover */
-  margin: 0 !important;
-  border-radius: 0 !important;
-  background: none !important;
-  display: block;
-  max-width: none !important;
-  max-height: none !important;
-}
-    /* fallback for JS class if needed */
-    .fullscreen-img {
+    :fullscreen .octocat-card img,
+    :-webkit-full-screen .octocat-card img,
+    :-ms-fullscreen .octocat-card img {
       width: 100vw !important;
       height: 100vh !important;
       object-fit: cover !important;
@@ -122,6 +110,7 @@
       display: block;
       max-width: none !important;
       max-height: none !important;
+      box-shadow: none !important;
     }
     /* Dark mode */
     body.dark {
@@ -296,12 +285,11 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     img.src = o.image;
     img.classList.remove("loaded");
+    // Fullscreen-specific styling is now only handled by CSS :fullscreen rules
     if (isFullscreen) {
-      img.classList.add('fullscreen-img');
       container.classList.add('fullscreen-bg', 'hide-toggle');
       document.body.classList.add('hide-toggle');
     } else {
-      img.classList.remove('fullscreen-img');
       container.classList.remove('fullscreen-bg', 'hide-toggle');
       document.body.classList.remove('hide-toggle');
     }
