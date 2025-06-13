@@ -201,6 +201,10 @@
         padding: 0.35em 0.5em;
       }
     }
+    /* Hide cursor after inactivity */
+    .hide-cursor {
+      cursor: none !important;
+    }
   </style>
 </head>
 <body>
@@ -465,6 +469,21 @@ document.addEventListener('DOMContentLoaded', function () {
       renderCurrentOctocat(state === "paused");
     }
   });
+
+  // ===== Mouse cursor hide-after-inactivity logic =====
+  let cursorTimeout;
+  function hideCursor() {
+    document.body.classList.add('hide-cursor');
+  }
+  function showCursor() {
+    document.body.classList.remove('hide-cursor');
+    clearTimeout(cursorTimeout);
+    cursorTimeout = setTimeout(hideCursor, 3000);
+  }
+  document.addEventListener('mousemove', showCursor);
+  document.addEventListener('mousedown', showCursor); // also show on click/tap
+  document.addEventListener('keydown', showCursor);   // also show on keyboard navigation
+  cursorTimeout = setTimeout(hideCursor, 3000);
 });
 </script>
 </body>
