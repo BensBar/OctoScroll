@@ -97,14 +97,31 @@
     .fullscreen-bg {
       background: var(--bg-color, #000) !important;
     }
-    .fullscreen-img {
+    /* Make image fill the screen only in fullscreen mode */
+    :fullscreen .octocat-card img,
+    :-webkit-full-screen .octocat-card img,
+    :-ms-fullscreen .octocat-card img {
       width: 100vw !important;
       height: 100vh !important;
-      object-fit: contain !important;
+      object-fit: cover !important;
       margin: 0 !important;
       border-radius: 0 !important;
       background: none !important;
       display: block;
+      max-width: none !important;
+      max-height: none !important;
+    }
+    /* fallback for JS class if needed */
+    .fullscreen-img {
+      width: 100vw !important;
+      height: 100vh !important;
+      object-fit: cover !important;
+      margin: 0 !important;
+      border-radius: 0 !important;
+      background: none !important;
+      display: block;
+      max-width: none !important;
+      max-height: none !important;
     }
     /* Dark mode */
     body.dark {
